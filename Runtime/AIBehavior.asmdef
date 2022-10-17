@@ -1,0 +1,16 @@
+{
+    "name": "AIBehaviorTree",
+    "rootNamespace": "AIBehaviorTree",
+    "references": [
+        "GUID:42dbbc3ef956f5049a227a5cd1a5b7da"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

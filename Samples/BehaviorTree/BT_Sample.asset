@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6592988407550627359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0128b3e2e6ca5144b7d31f0b1a18c57, type: 3}
+  m_Name: BTGenerateRandomLocation
+  m_EditorClassIdentifier: 
+  m_GUID: 2333687b8295b574a9f7913b1df1ba60
+  m_Position: {x: -138, y: 294}
+  m_BeganExecution: 0
+  m_Tree: {fileID: 11400000}
+  m_Agent: {fileID: 0}
+  m_Description: 
+  m_BreakPoint: 0
+  m_BlackboardKeySelector:
+    rid: 5165920528346382342
+  m_WalkRadius: 100
+  m_Constraints: {x: 1, y: 1, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: 5165920528346382342
+      type: {class: VectorBlackBoardKeySelector, ns: AIBehaviorTree, asm: AIBehaviorTree}
+      data:
+        m_SelectedKeyName: Location
+--- !u!114 &-5293782742015494862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 546d6f8a8ada1ce4a90cf1bbe81073d0, type: 3}
+  m_Name: BTRoot
+  m_EditorClassIdentifier: 
+  m_GUID: c56adc641aa93d241850b9b58daea969
+  m_Position: {x: 0, y: 0}
+  m_BeganExecution: 0
+  m_Tree: {fileID: 11400000}
+  m_Agent: {fileID: 0}
+  m_Description: 
+  m_BreakPoint: 0
+  m_Children:
+  - {fileID: -4470217817661928498}
+--- !u!114 &-4893551453334243607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 098e168764f196543a3cbf7485cb2927, type: 3}
+  m_Name: BTWait
+  m_EditorClassIdentifier: 
+  m_GUID: a2613aec87ae9e84f9f1c56dcacc69a8
+  m_Position: {x: -302.52, y: 294}
+  m_BeganExecution: 0
+  m_Tree: {fileID: 11400000}
+  m_Agent: {fileID: 0}
+  m_Description: 
+  m_BreakPoint: 0
+  m_Duration: 2
+--- !u!114 &-4470217817661928498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d91f189f485e32488386ae985d28a55, type: 3}
+  m_Name: BTSequencer
+  m_EditorClassIdentifier: 
+  m_GUID: 170d4c29a2855c84097d3432f2f37dd3
+  m_Position: {x: 0, y: 128}
+  m_BeganExecution: 0
+  m_Tree: {fileID: 11400000}
+  m_Agent: {fileID: 0}
+  m_Description: 
+  m_BreakPoint: 0
+  m_Children:
+  - {fileID: -4893551453334243607}
+  - {fileID: -6592988407550627359}
+  - {fileID: 5922567395351955409}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f22dea1fb671e479b618583c47f538, type: 3}
+  m_Name: BT_Sample
+  m_EditorClassIdentifier: 
+  m_Root: {fileID: -5293782742015494862}
+  m_Nodes:
+  - {fileID: -5293782742015494862}
+  - {fileID: -4470217817661928498}
+  - {fileID: -6592988407550627359}
+  - {fileID: -4893551453334243607}
+  - {fileID: 5922567395351955409}
+  m_Groups: []
+  m_BlackBoard: {fileID: 11400000, guid: 0537cd9d537c20e4295e860d2aa96a66, type: 2}
+--- !u!114 &5922567395351955409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7440837849a9dce429837799e3e42182, type: 3}
+  m_Name: BTMoveToLocation
+  m_EditorClassIdentifier: 
+  m_GUID: e9f80b279622f3f4dbb5dfdf13cb7f5a
+  m_Position: {x: 207, y: 279}
+  m_BeganExecution: 0
+  m_Tree: {fileID: 11400000}
+  m_Agent: {fileID: 0}
+  m_Description: 
+  m_BreakPoint: 0
+  m_IncludeAgentRadius: 1
+  m_BlackBoardKeySelector:
+    rid: 5165920528346382343
+  references:
+    version: 2
+    RefIds:
+    - rid: 5165920528346382343
+      type: {class: BlackBoardKeySelector, ns: AIBehaviorTree, asm: AIBehaviorTree}
+      data:
+        m_SelectedKeyName: Location

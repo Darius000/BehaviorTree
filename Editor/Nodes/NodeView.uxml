@@ -1,0 +1,26 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/BehaviourTree/Editor/Nodes/NodeViewStyle.uss?fileID=7433441132597879392&amp;guid=343dc11cbee287046b71b3a752220466&amp;type=3#NodeViewStyle" />
+    <ui:VisualElement name="node-state" picking-mode="Ignore" style="flex-grow: 1; border-left-width: 10px; border-right-width: 10px; border-top-width: 10px; border-bottom-width: 10px; flex-shrink: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;" />
+    <ui:GroupBox name="node-border" picking-mode="Ignore" style="-unity-text-align: upper-left; -unity-background-scale-mode: scale-to-fit; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+        <ui:VisualElement name="contents" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+            <ui:VisualElement name="top">
+                <ui:VisualElement name="input" picking-mode="Ignore" style="flex-direction: column;" />
+                <ui:VisualElement name="divider" picking-mode="Ignore" class="vertical" />
+                <ui:VisualElement name="Decorators" focusable="true" usage-hints="MaskContainer" />
+                <ui:VisualElement name="title" picking-mode="Ignore" style="flex-grow: 1; align-items: center; justify-content: center;">
+                    <ui:Label name="title-label" text="BTRepeaterDecorator" class="unity-text-element unity-label" />
+                    <ui:VisualElement name="title-button-container">
+                        <ui:VisualElement name="collapse-button">
+                            <ui:VisualElement name="icon" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Label text="This is a description" display-tooltip-when-elided="true" name="description" picking-mode="Ignore" style="flex-grow: 1; max-width: none;" />
+                <ui:VisualElement name="Services" focusable="true" picking-mode="Ignore" />
+                <ui:VisualElement name="divider" picking-mode="Ignore" class="horizontal" />
+                <ui:VisualElement name="output" picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:GroupBox>
+    <ui:VisualElement name="selection-border" focusable="false" usage-hints="None" picking-mode="Ignore" style="flex-grow: 1; flex-shrink: 0;" />
+</ui:UXML>

@@ -1,0 +1,24 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+using AIBehaviorTree;
+
+public class #SCRIPTNAME# : BTTaskNode 
+{	
+    protected override void OnBeginExecute()
+    {
+        return;
+    }
+
+    protected override EResult OnExecute()
+    {
+        return EResult.Success;
+    }
+
+    protected override void OnEndExecute()
+    {
+        return;
+    }
+}

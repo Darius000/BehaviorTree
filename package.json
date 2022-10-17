@@ -1,0 +1,13 @@
+{
+  "name": "com.darius000.aibehaviortree",
+  "version": "1.0.0",
+  "displayName": "AIBehaviorTree",
+  "description": "Provides the ability to creat complex ai systems visually using nodes based off shader graph",
+  "unity": "2021.3",
+  "unityRelease": "2f1",
+  "dependencies": {
+
+  },
+  "keywords": [ "AI", "BehaviorTree" ],
+  "category": "AI"
+}
