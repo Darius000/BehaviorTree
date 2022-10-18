@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: BehaviourTreeSettigs
   m_EditorClassIdentifier: 
   m_NodeUXML: {fileID: 9197481963319205126, guid: 8a018ddf3e5c53049aa2a16f6055c2df, type: 3}
-  m_DecoratorNodeUXML: {fileID: 9197481963319205126, guid: e90658b9230d21046bd7733e39a3eb94, type: 3}
+  m_PortUXML: {fileID: 9197481963319205126, guid: 4ded0cd102c95bd419ebb0fb7deb4f87, type: 3}
   m_ScriptTemplateTask: {fileID: 4900000, guid: 4967c6008aab8254fb61076dcddc0fb8, type: 3}
   m_ScriptTemplateDecorator: {fileID: 4900000, guid: d10bbcee8c185fb4c90f23e40d54f8ed, type: 3}
-  m_NewNodeAssetPath: Assets/
   m_BlackBoardKeyIcon: {fileID: 2800000, guid: 5f070ffc322a0674eac989fb47211e15, type: 3}

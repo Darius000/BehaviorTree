@@ -16,6 +16,9 @@ namespace AIBehaviorTree
         internal VisualTreeAsset m_NodeUXML;
 
         [SerializeField]
+        internal VisualTreeAsset m_PortUXML;
+
+        [SerializeField]
         internal TextAsset m_ScriptTemplateTask;
 
         [SerializeField]
@@ -46,6 +49,7 @@ namespace AIBehaviorTree
             {
                 settings = ScriptableObject.CreateInstance<BehaviorTreeSettings>();
                 settings.m_NodeUXML = Utils.BehaviorTreeUtils.FindAsset<VisualTreeAsset>("NodeView");
+                settings.m_PortUXML = Utils.BehaviorTreeUtils.FindAsset<VisualTreeAsset>("PortView");
                 settings.m_ScriptTemplateTask = Utils.BehaviorTreeUtils.FindAsset<TextAsset>("BTTask_Template");
                 settings.m_ScriptTemplateDecorator = Utils.BehaviorTreeUtils.FindAsset<TextAsset>("BTDecorator_Template");
                 settings.m_BlackBoardKeyIcon = Utils.BehaviorTreeUtils.FindAsset<Texture2D>("Capsule");
@@ -69,6 +73,7 @@ namespace AIBehaviorTree
         class Styles
         {
             public static GUIContent nodeUXMLTemplatePath = new GUIContent("Node UXML");
+            public static GUIContent portUXMLTemplatePath = new GUIContent("Port UXML");
             public static GUIContent taskNodeTemplate = new GUIContent("New Task Node Template");
             public static GUIContent decoratorNodeTemplate = new GUIContent("New Decorator Node Template");
             public static GUIContent blackBoardKeyIcon = new GUIContent("BlackBoard Key Icon");
@@ -88,6 +93,7 @@ namespace AIBehaviorTree
         {
             
             EditorGUILayout.PropertyField(m_Settings.FindProperty("m_NodeUXML"), Styles.nodeUXMLTemplatePath);
+            EditorGUILayout.PropertyField(m_Settings.FindProperty("m_PortUXML"), Styles.portUXMLTemplatePath);
             EditorGUILayout.PropertyField(m_Settings.FindProperty("m_ScriptTemplateTask"), Styles.taskNodeTemplate);
             EditorGUILayout.PropertyField(m_Settings.FindProperty("m_ScriptTemplateDecorator"), Styles.decoratorNodeTemplate);
             EditorGUILayout.PropertyField(m_Settings.FindProperty("m_BlackBoardKeyIcon"), Styles.blackBoardKeyIcon);

@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/BehaviorTree/Editor/Nodes/BTPortStyle.uss?fileID=7433441132597879392&amp;guid=52476930d8f0551419bf2664f2d70572&amp;type=3#BTPortStyle" />
+    <ui:VisualElement name="connector" class="connectorBox">
+        <ui:VisualElement name="cap" class="connectorCap" />
+    </ui:VisualElement>
+    <ui:Label name="type" class="unity-text-element unity-label connectorText" />
+</ui:UXML>

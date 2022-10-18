@@ -126,5 +126,9 @@ namespace AIBehaviorTree
             return lhs.m_Position.x < rhs.m_Position.x ? -1 : 1;
         }
 
+        //public override Port InstantiatePort(Orientation orientation, Direction direction, Port.Capacity capacity, Type type)
+        //{
+        //    return BTPort.Create<Edge>(orientation, direction, capacity, type);
+        //}
     }
 }
