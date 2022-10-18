@@ -23,11 +23,26 @@ namespace AIBehaviorTree
             m_Node = node;
 
             string displayName = node.name;
+            string iconPath = "";
             var attributes = node.GetType().GetCustomAttributes(typeof(DisplayNameAttribute), false);
             if (attributes.Length > 0)
             {
                 var nameAttribute = attributes[0] as DisplayNameAttribute;
                 displayName = nameAttribute.DisplayName;
+            }
+
+            //find icon attribute and set node icon
+            var iconattributes = node.GetType().GetCustomAttributes(typeof(NodeIconAttribute), true);
+            if (iconattributes.Length > 0)
+            {
+                var iconAttribute = iconattributes[0] as NodeIconAttribute;
+                iconPath = iconAttribute.IconPath;
+
+                var icon = this.Q<VisualElement>("Icon");
+                if (icon != null)
+                {
+                    icon.style.backgroundImage = new StyleBackground(Resources.Load<Texture2D>(iconPath));
+                }
             }
 
             title = displayName;

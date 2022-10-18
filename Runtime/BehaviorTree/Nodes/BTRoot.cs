@@ -5,6 +5,7 @@ using UnityEngine;
 namespace AIBehaviorTree
 {
     [DisplayName("Root")]
+    [NodeIcon("Root")]
     public class BTRoot : BTNode
     {
         [HideInInspector] public List<BTNode> m_Children = new List<BTNode>();

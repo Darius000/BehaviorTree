@@ -7,6 +7,7 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using System.Linq;
+using System.Reflection;
 
 namespace AIBehaviorTree
 {
@@ -22,8 +23,6 @@ namespace AIBehaviorTree
             style.left = node.m_Position.x;
             style.top = node.m_Position.y;
             
-           
-
             CreateInputPorts();
             CreateOutputPorts();
 
@@ -38,7 +37,6 @@ namespace AIBehaviorTree
             //initilaize breakpoint visibility
             ToggleBreakPoint(node.m_BreakPoint);
             node.OnBreakPointSet += ToggleBreakPoint;
-
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)

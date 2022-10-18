@@ -100,7 +100,11 @@ namespace AIBehaviorTree
 			{
 				var blackboard = property.changedProperty.objectReferenceValue as BlackBoard;
 
-				SetBlackBoard(blackboard);
+
+                m_TreeView.m_Tree.Root.m_Description = blackboard ? blackboard.name : "";
+
+
+                SetBlackBoard(blackboard);
 			});
 
 			if (m_TreeView != null)
@@ -370,7 +374,7 @@ namespace AIBehaviorTree
 
 			UpdateBlackBoardKeys(blackBoard);
 
-			m_BlackBoardView.Initialize(blackBoard);
+            m_BlackBoardView.Initialize(blackBoard);
 		}
 
 		internal void UpdateBlackBoardKeys(BlackBoard blackboard)
