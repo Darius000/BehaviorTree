@@ -11,6 +11,7 @@ using UnityEngine.AI;
 namespace AIBehaviorTree
 {
     [DisplayName("BlackBoard Based Condition")]
+    [NodeIcon("BlackBoard")]
     public class BTBlackBoardBasedCondition : BTDecorator
     {
 

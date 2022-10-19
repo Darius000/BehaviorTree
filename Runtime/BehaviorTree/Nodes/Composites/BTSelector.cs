@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace AIBehaviorTree
 {
     [DisplayName("Selector")]
+    [NodeIcon("Selector")]
     internal class BTSelector : BTComposite
     {
         private int m_CurrentNode = 0;

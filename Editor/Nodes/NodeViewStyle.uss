@@ -62,18 +62,20 @@
     margin-bottom: 0;
 }
 
-#title {
+#title-label {
     -unity-font-style: bold;
-    font-size: 14px;
+    font-size: 15px;
     border-left-color: rgb(255, 255, 255);
     border-right-color: rgb(255, 255, 255);
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 255);
 }
 
 #description {
     font-size: 10px;
-    max-width: 150px;
+    -unity-font-style: normal;
+    -unity-text-align: middle-left;
 }
 
 .root #input {
@@ -117,7 +119,7 @@
     width: 100px;
     height: 25px;
     background-color: rgb(50, 50, 50);
-    border-width : 0px;
+    border-width: 0;
 }
 
 #output .port .connectorBox {
@@ -128,7 +130,7 @@
     width: 100px;
     height: 25px;
     background-color: rgb(50, 50, 50);
-    border-width : 0px;
+    border-width: 0;
 }
 
 #output .port {

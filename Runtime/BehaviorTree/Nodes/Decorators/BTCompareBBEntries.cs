@@ -11,6 +11,7 @@ namespace AIBehaviorTree
     
 
     [DisplayName("CompareBBEntries")]
+    [NodeIcon("CompareBlackBoard")]
     public class BTCompareBBEntries : BTDecorator
     {
         [SerializeReference]

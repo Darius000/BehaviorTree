@@ -7,8 +7,9 @@ using UnityEngine;
 
 namespace AIBehaviorTree
 {
-    [DisplayName("Sequencer")]
-    public class BTSequencer : BTComposite
+    [DisplayName("Sequence")]
+    [NodeIcon("Sequence")]
+    public class BTSequence : BTComposite
     {
         private int m_CurrentNode = 0;
 

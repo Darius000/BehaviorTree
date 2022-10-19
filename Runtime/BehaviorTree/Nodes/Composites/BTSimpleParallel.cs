@@ -8,6 +8,7 @@ using UnityEngine;
 namespace AIBehaviorTree
 {
     [DisplayName("Simple Parallel")]
+    [NodeIcon("Parallel")]
     public class BTSimpleParallel : BTComposite
     {
         private int m_CurrentNode = 1;

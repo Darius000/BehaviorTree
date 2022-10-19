@@ -54,7 +54,8 @@ namespace AIBehaviorTree
         {
             m_EditorWindow = editorWindow;
 
-            this.AddManipulator(new ContentZoomer());
+
+            this.AddManipulator(new ContentZoomer() { maxScale = 3f });
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());

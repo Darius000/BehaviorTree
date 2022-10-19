@@ -9,6 +9,7 @@ using UnityEditor;
 namespace AIBehaviorTree
 {
     [DisplayName("Decorator")]
+    [NodeIcon("Decorator")]
     public abstract class BTDecorator : BTNode
     {
 

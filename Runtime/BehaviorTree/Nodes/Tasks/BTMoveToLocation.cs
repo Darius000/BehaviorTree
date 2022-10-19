@@ -9,6 +9,7 @@ using UnityEngine.AI;
 namespace AIBehaviorTree
 {
     [DisplayName("Move To Location")]
+    [NodeIcon("MoveTo")]
     public class BTMoveToLocation : BTTaskNode
     {
         public bool m_IncludeAgentRadius = true;

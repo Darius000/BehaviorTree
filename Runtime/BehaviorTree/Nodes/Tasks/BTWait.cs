@@ -6,6 +6,7 @@ using UnityEngine;
 namespace AIBehaviorTree
 {
     [DisplayName("Wait")]
+    [NodeIcon("Wait")]
     public class BTWait : BTTaskNode
     {
 
