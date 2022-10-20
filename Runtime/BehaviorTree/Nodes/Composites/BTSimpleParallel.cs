@@ -53,7 +53,7 @@ namespace AIBehaviorTree
 
         private async Task<EResult> RunMainTaskAsync()
         {
-            return m_Children[0].Execute();
+            return await Task.Run<EResult>(m_Children[0].Execute);
         }
     }
 }

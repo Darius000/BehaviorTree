@@ -9,9 +9,9 @@
                     <ui:VisualElement name="Border" style="border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(24, 24, 24); border-right-color: rgb(24, 24, 24); border-top-color: rgb(24, 24, 24); border-bottom-color: rgb(24, 24, 24); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; width: 95%; align-items: flex-start; justify-content: center; height: 95%; background-color: rgb(58, 58, 58); padding-left: 3px; padding-right: 3px; padding-top: 3px; padding-bottom: 3px;">
                         <ui:VisualElement style="flex-direction: row; align-items: center;">
                             <ui:VisualElement name="Icon" style="width: 30px; height: 30px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 5px; margin-right: 5px; margin-top: 0; margin-bottom: 0; background-image: none; -unity-background-scale-mode: stretch-to-fill; min-width: 0; min-height: 0; display: none;" />
-                            <ui:Label name="title-label" text="BTRepeaterDecorator" class="unity-text-element unity-label" style="-unity-text-align: middle-left; white-space: nowrap; height: 100%;" />
+                            <ui:TextField value="filler text" text="filler text" name="title-label" binding-path="m_DisplayName" password="false" focusable="true" picking-mode="Ignore" />
                         </ui:VisualElement>
-                        <ui:Label text="Label" display-tooltip-when-elided="true" name="description" style="align-items: flex-start; margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px;" />
+                        <ui:TextField value="filler text" text="filler text" name="description" picking-mode="Ignore" binding-path="m_Description" focusable="true" multiline="true" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="output" picking-mode="Ignore" />

@@ -24,7 +24,6 @@ namespace AIBehaviorTree
 
         [HideInInspector] public BehaviorTree Tree { get { return m_Tree; } set { m_Tree = value; } }
 
-        [TextArea] public string m_Description;
 
         public Action<EResult> OnCompletedEvent;
 
@@ -39,10 +38,7 @@ namespace AIBehaviorTree
             
         }
 
-        protected void OnEnable()
-        {
-            m_Description = GetDisplayName();
-        }
+       
 
         protected void SetState(EResult state)
         {
@@ -153,16 +149,6 @@ namespace AIBehaviorTree
             return GetChildren().Contains(b);
         }
 
-        public string GetDisplayName()
-        {
-            var attributes = GetType().GetCustomAttributes(typeof(DisplayNameAttribute), false);
-            if (attributes.Length > 0)
-            {
-                var nameAttribute = attributes[0] as DisplayNameAttribute;
-                return nameAttribute.DisplayName;
-            }
-
-            return name;
-        }
+       
     }
 }

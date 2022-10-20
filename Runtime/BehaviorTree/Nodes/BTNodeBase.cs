@@ -16,7 +16,10 @@ namespace AIBehaviorTree
 
         [HideInInspector] public Action<BTNodeBase> OnDeletedEvent;
 
-        
+        [TextArea]  public string m_Description;
+
+        //text displayed on node title
+        [TextArea] public string m_DisplayName;
 
         public void Delete()
         {
@@ -31,6 +34,12 @@ namespace AIBehaviorTree
         protected virtual void OnDelete()
         {
 
+        }
+
+        protected void OnEnable()
+        {
+
+            m_Description = m_DisplayName = GetDisplayName();
         }
 
         public void SetPosition(Vector2 pos)
@@ -49,6 +58,19 @@ namespace AIBehaviorTree
             var node = Instantiate(this);
 
             return node;
+        }
+
+        //returns the display name if no displayname attribute default name is returned
+        public string GetDisplayName()
+        {
+            var attributes = GetType().GetCustomAttributes(typeof(DisplayNameAttribute), false);
+            if (attributes.Length > 0)
+            {
+                var nameAttribute = attributes[0] as DisplayNameAttribute;
+                return nameAttribute.DisplayName;
+            }
+
+            return name;
         }
     }
 }

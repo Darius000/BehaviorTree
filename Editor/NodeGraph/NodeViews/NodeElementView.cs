@@ -12,6 +12,7 @@ namespace AIBehaviorTree
     {
         internal BTNode m_Node;
 
+        private SerializedObject m_SerializedObject;
 
         public Action<NodeElementView> OnSelectedEvent;
 
@@ -21,6 +22,11 @@ namespace AIBehaviorTree
         public NodeElementView(BTNode node, Action<NodeElementView> OnSelectedCallback = null, string uxml = default) : base(uxml)
         {
             m_Node = node;
+
+            //set serailized object and bind to this visual element
+            m_SerializedObject = new SerializedObject(node);
+            this.Bind(m_SerializedObject);
+
 
             string iconPath = "";
             
