@@ -60,6 +60,7 @@
     margin-right: 0;
     margin-top: 0;
     margin-bottom: 0;
+    overflow: visible;
 }
 
 #title-label {
@@ -70,6 +71,17 @@
     border-top-color: rgb(255, 255, 255);
     border-bottom-color: rgb(255, 255, 255);
     text-shadow: 1px 1px 0 rgb(0, 0, 0);
+    -unity-text-align: upper-left;
+    overflow: visible;
+    flex-grow: 1;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 #description {
@@ -78,6 +90,16 @@
     -unity-text-align: middle-left;
     white-space: nowrap;
     flex-wrap: wrap;
+    overflow: visible;
+    flex-grow: 1;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .root #input {
@@ -158,7 +180,7 @@
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 0;
-    color: rgba(255, 255, 255, 255);
+    color: rgb(255, 255, 255);
     -unity-font-style: bold;
     font-size: 15px;
     margin-left: 0;
@@ -169,18 +191,22 @@
     padding-right: 0;
     padding-top: 0;
     padding-bottom: 0;
-    -unity-text-align: middle-center;
+    -unity-text-align: middle-left;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    border-left-color: rgba(0, 0, 0, 255);
-    border-right-color: rgba(0, 0, 0, 255);
-    border-top-color: rgba(0, 0, 0, 255);
-    border-bottom-color: rgba(0, 0, 0, 255);
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 255);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    text-shadow: 1px 1px 0 rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0);
     white-space: nowrap;
+    overflow: visible;
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
 #description .unity-base-text-field__input {
@@ -202,4 +228,5 @@
     text-shadow: 1px 1px 0 rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0);
     -unity-text-align: middle-left;
+    overflow: visible;
 }
