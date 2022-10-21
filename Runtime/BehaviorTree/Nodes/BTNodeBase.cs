@@ -16,10 +16,10 @@ namespace AIBehaviorTree
 
         [HideInInspector] public Action<BTNodeBase> OnDeletedEvent;
 
-        [TextArea]  public string m_Description;
+        [HideInInspector] public string m_Description;
 
         //text displayed on node title
-        [TextArea] public string m_DisplayName;
+        [HideInInspector] public string m_DisplayName;
 
         public void Delete()
         {
