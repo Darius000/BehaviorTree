@@ -35,7 +35,7 @@ namespace AIBehaviorTree
     {
         public Action<NodeView> m_OnNodeSelected;
 
-   
+
         private MiniMap m_MiniMap;
 
         private BehaviorTreeSearchWindow m_SearchWindow;
@@ -75,13 +75,13 @@ namespace AIBehaviorTree
             unserializeAndPaste += OnPaste;
             serializeGraphElements += CutPasteOperation;
         }
- 
+
         private string CutPasteOperation(IEnumerable<GraphElement> elements)
         {
             Cache.Clear();
-            foreach(var element in elements)
+            foreach (var element in elements)
             {
-                if(element is NodeView)
+                if (element is NodeView)
                 {
                     var node = ((NodeView)element).m_Node;
                     Cache.Add(node);
@@ -94,9 +94,9 @@ namespace AIBehaviorTree
         private void OnPaste(string operationName, string data)
         {
             Cache = JsonUtility.FromJson<CopyPasteCache>(data);
-            foreach(var node in Cache.m_CopiedNodes)
+            foreach (var node in Cache.m_CopiedNodes)
             {
-                PasteNode(node, m_MousePosition);              
+                PasteNode(node, m_MousePosition);
             }
         }
 
@@ -156,14 +156,14 @@ namespace AIBehaviorTree
 
         private void AddSearchWindow()
         {
-            if(m_SearchWindow == null)
+            if (m_SearchWindow == null)
             {
                 m_SearchWindow = ScriptableObject.CreateInstance<BehaviorTreeSearchWindow>();
                 m_SearchWindow.Initialize(this);
             }
 
             nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), m_SearchWindow);
-            
+
         }
 
         #endregion
@@ -199,16 +199,16 @@ namespace AIBehaviorTree
 
                 CreateNodeView(n);
 
-                if(n.Tree == null)
+                if (n.Tree == null)
                 {
                     n.Tree = tree;
                 }
 
-                if(n.OnDeletedEvent == null)
+                if (n.OnDeletedEvent == null)
                 {
                     n.OnDeletedEvent = tree.DeleteNode;
                 }
-            }) ;
+            });
 
             //create edges
             m_Tree.Nodes.ForEach(n =>
@@ -218,13 +218,13 @@ namespace AIBehaviorTree
                 {
                     if (c == null) return;
 
-                    CreateEdgeElement(n ,c);
+                    CreateEdgeElement(n, c);
                 });
             });
 
             m_Tree.Groups.ForEach(g =>
             {
-                if(g.OnDeletedEvent == null)
+                if (g.OnDeletedEvent == null)
                 {
                     g.OnDeletedEvent = tree.DeleteNode;
                 }
@@ -234,7 +234,7 @@ namespace AIBehaviorTree
                 children.ForEach(c =>
                 {
                     NodeView view = FindNodeElementView(c) as NodeView;
-                    if(view != null)
+                    if (view != null)
                     {
                         groupView.AddElement(view);
                     }
@@ -248,15 +248,11 @@ namespace AIBehaviorTree
             var index = a.GetChildIndex(b);
             if (index == -1) return;
 
-            //if (!a.ContainsChild(b)) return;
+            var parentView = FindNodeElementView(a);
+            var childView = FindNodeElementView(b);
 
-            NodeView parentView = FindNodeElementView(a) as NodeView;
-            NodeView childView = FindNodeElementView(b) as NodeView;
-
-
-            //Edge edge = parentView.m_Output.ConnectTo(childView.m_Input);
             Edge edge = parentView.ConnectEdgeToChildren(childView, index);
-            if(edge != null)
+            if (edge != null)
             {
                 AddElement(edge);
             }
@@ -265,7 +261,9 @@ namespace AIBehaviorTree
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             return ports.ToList().Where(endPort => endPort.direction != startPort.direction &&
-            endPort.node != startPort.node && startPort.portType.IsSubclassOf(endPort.portType)).ToList();
+            endPort.node != startPort.node && 
+            (startPort.portType.IsSubclassOf(endPort.portType) || 
+            startPort.portType == endPort.portType)).ToList();
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -376,31 +374,34 @@ namespace AIBehaviorTree
             return node;
         }
 
-        internal void OnNodeCreated(BTNode node)
+        private void OnNodeCreated(BTNode node)
         {
             if (node is BTGroup) CreateGroupView(node as BTGroup);
             else if (node is BTNode) CreateNodeView(node);
         }
 
-        GroupView CreateGroupView(BTGroup group)
+        private GroupView CreateGroupView(BTGroup group)
         {
             if (group == null) return null;
 
-            GroupView groupView = new GroupView(group);
+            var groupview = new GroupView(group);
 
-            AddElement(groupView);
+            AddElement(groupview);
 
-            return groupView;
+            return groupview;
         }
 
-        void CreateNodeView(BTNode node)
+        private NodeView CreateNodeView(BTNode node)
         {
-            if (node == null) return;
+            if (node == null) return null;
 
-            var nodeView = new NodeView(node, m_OnNodeSelected);
+            var nodeview =  new NodeView(node, m_OnNodeSelected);
 
-            AddElement(nodeView);
+            AddElement(nodeview);
+
+            return nodeview;
         }
+
 
         #region Utilities
 

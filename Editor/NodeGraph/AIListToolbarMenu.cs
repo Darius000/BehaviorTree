@@ -10,23 +10,55 @@ using UnityEditor;
 
 namespace AIBehaviorTree
 {
+
     public class AIListToolbarMenu : ToolbarMenu
     {
-        public AIListToolbarMenu()
-        {
+        public Func<BehaviorTree> GetBehaviorTree { get; set; }
 
-        }
 
         public Action<BehaviorTreeComponent> OnAISelectedEvent;
 
 
+        public AIListToolbarMenu(Func<BehaviorTree> GetBehaviorTree)
+        {
+            this.GetBehaviorTree = GetBehaviorTree;
+
+            EditorApplication.playModeStateChanged += OnPlayModeChanged;
+
+            if(EditorApplication.isPlaying)
+            {
+                PopulateList();
+            }
+        }
+
+        ~AIListToolbarMenu()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+        }
+
+        private void OnPlayModeChanged(PlayModeStateChange evt)
+        {
+            if(evt == PlayModeStateChange.EnteredEditMode)
+            {
+                ClearList();
+
+            }
+            
+            if(evt == PlayModeStateChange.EnteredPlayMode)
+            {
+                PopulateList();
+            }
+
+            Debug.Log("Play Mode Changed to " + evt);
+        }
 
         /// <summary>
         /// finds all the associated ai in the scene
         /// </summary>
         /// <param name="type"></param>
-        public void PopulateList(System.Type type)
+        public void PopulateList()
         {
+            var type = GetBehaviorTree?.Invoke().GetType();
             var ai = GameObject.FindObjectsOfType<BehaviorTreeComponent>();
 
 

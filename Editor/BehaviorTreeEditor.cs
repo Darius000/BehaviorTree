@@ -36,11 +36,10 @@ namespace AIBehaviorTree
 		[SerializeField]
 		private ListView m_BlackBoardKeyList;
 
-		[SerializeField]
-		private AIListToolbarMenu m_Menu;
-
-
 		private PropertyField m_BlackBoardPropertyField;
+
+        [SerializeField]
+        private BehaviorTreeToolbar m_Toolbar;
 
 
 		[SerializeField]
@@ -111,13 +110,6 @@ namespace AIBehaviorTree
 			{
 				m_TreeView.PopulateView(tree);
 			}
-
-			m_Menu.OnAISelectedEvent = OnAISelected;
-
-			if (EditorApplication.isPlaying)
-			{
-				m_Menu.PopulateList(tree.GetType());
-			}
 		}
 
 		private void OnAISelected(BehaviorTreeComponent obj)
@@ -145,9 +137,15 @@ namespace AIBehaviorTree
 		{
 			m_BlackBoardView = new BlackBoardView();
 
-			AddToolBar();
+			//Add toolbar
+			m_Toolbar = new BehaviorTreeToolbar(GetSelectedTree);
+			m_Toolbar.SaveButton.clicked += Save;
+			m_Toolbar.MiniMapButton.clicked += ToggleMiniMap;
+			m_Toolbar.AIListMenu.OnAISelectedEvent += OnAISelected;
 
-			AddTabs();
+            rootVisualElement.Add(m_Toolbar);
+
+            AddTabs();
 
 			if (m_CurrentSelectedTree != null)
 			{
@@ -157,21 +155,10 @@ namespace AIBehaviorTree
 		}
 
         #region Toolbar
-        private void AddToolBar()
+
+		private BehaviorTree GetSelectedTree()
 		{
-			var buttonColor = new Color(.2f, .2f, .6f);
-
-			m_Menu = new AIListToolbarMenu { name = "Current Scene AI", text = "Current Scene AI" };
-			//menu bar buttons
-			Button blackboardButton = ElementUtilities.CreateButton("New Blackboard", () => { BlackBoardEditor.OpenWindow(); }, buttonColor);
-			Button taskButton = ElementUtilities.CreateButton("New Task", BehaviorTreeUtilities.CreateBTTaskNode, buttonColor);
-			Button decoratorButton = ElementUtilities.CreateButton("New Decorator", BehaviorTreeUtilities.CreateDecoratorNode, buttonColor);
-			Button miniMapButton = ElementUtilities.CreateButton("MiniMap", () => ToggleMiniMap());
-			Button saveButton = ElementUtilities.CreateButton("Save", () =>Save());
-
-			Toolbar toolbar  = ElementUtilities.CreateToolBar("ToolBar", 10.0f, new VisualElement[] { m_Menu, blackboardButton, taskButton, decoratorButton, miniMapButton, saveButton });
-			
-			rootVisualElement.Add(toolbar);
+			return m_CurrentSelectedTree;
 		}
 
 		private void Save()
@@ -208,9 +195,12 @@ namespace AIBehaviorTree
 			horizontalSplitView.Add(treeElement);
 			horizontalSplitView.Add(verticalplitView);
 
-			var behaviourTreeTab = ElementUtilities.CreateTab("BehaviourTree", horizontalSplitView);
-			var blackboardTab = ElementUtilities.CreateTab("BlackBoard", m_BlackBoardView);
-			var tabView = ElementUtilities.CreateTabView("Tree Tabs", new Tab[] { behaviourTreeTab, blackboardTab});
+			var behaviourTreeTab = new Tab("BehaviourTree", horizontalSplitView);
+			var blackboardTab = new Tab("BlackBoard", m_BlackBoardView);
+			var tabView = new TabView() { name = "Tree Tabs", style = { flexGrow = 1 } };
+			tabView.Add(behaviourTreeTab);
+			tabView.Add(blackboardTab);
+			tabView.Activate(behaviourTreeTab);
 
 			rootVisualElement.Add(tabView);
 		}
@@ -252,7 +242,7 @@ namespace AIBehaviorTree
 			treeContainer.style.paddingRight = 5f;
 			treeContainer.style.paddingTop = 5f;
 
-			var label = ElementUtilities.CreateLabel("Tree Inspector", new Color32(78, 78, 78, 255));
+			var label = new Label() {  text = "Tree Inspector", style = { backgroundColor = new StyleColor(new Color32(78, 78, 78, 255)) } };
 
 			m_BlackBoardPropertyField = new PropertyField { label = "BlackBoard", name = "BlackBoard" };
 			m_BlackBoardPropertyField.style.paddingTop = 5f;
@@ -291,7 +281,7 @@ namespace AIBehaviorTree
 			root.style.borderRightWidth = 5;
 			root.style.borderLeftWidth = 5;
 
-			var label = ElementUtilities.CreateLabel("Inspector", new Color32(78, 78, 78, 255));
+			var label = new Label() { text = "Inspector", style = { backgroundColor = new StyleColor(new Color32(78, 78, 78, 255)) } };
 			m_InspectorView = new InspectorView { name = "Inspector" };
 			m_InspectorView.style.paddingTop = 10f;
 
@@ -325,24 +315,6 @@ namespace AIBehaviorTree
 		}
 
 		#endregion
-
-		public void PopulateAISceneListNames()
-		{
-			m_Menu = rootVisualElement.Q<AIListToolbarMenu>("SceneAI");
-
-			if (m_Menu == null) return;
-
-			if (EditorApplication.isPlaying)
-			{
-				var tree = m_TreeObject.targetObject as BehaviorTree;
-				m_Menu.PopulateList(tree.GetType());
-			}
-			else
-			{
-				m_Menu.ClearList();
-			}
-		}
-
 
 		#region ListView
 		internal VisualElement MakeListItem()
@@ -408,7 +380,6 @@ namespace AIBehaviorTree
 			{
 				case PlayModeStateChange.EnteredEditMode:
 					Initialize(m_CurrentSelectedTree);
-					m_Menu.ClearList();
 					break;
 				default:
 					break;
