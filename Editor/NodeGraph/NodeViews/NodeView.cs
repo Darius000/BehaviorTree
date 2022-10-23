@@ -13,8 +13,8 @@ namespace AIBehaviorTree
 {
     public class NodeView : NodeElementView
     {
-        public Port m_Input;
-        public Port m_Output;
+        //public Port m_Input;
+        //public Port m_Output;
         public Image BreakPointIcon = new Image() { style = { position = Position.Absolute } };
 
         public NodeView(BTNode node, Action<NodeElementView> OnSelectedCallback = null) : base(node, OnSelectedCallback, 
@@ -23,8 +23,8 @@ namespace AIBehaviorTree
             style.left = node.m_Position.x;
             style.top = node.m_Position.y;
             
-            CreateInputPorts();
-            CreateOutputPorts();
+            //CreateInputPorts();
+            //CreateOutputPorts();
 
             var error_icon = EditorGUIUtility.IconContent("console.erroricon").image;
             BreakPointIcon.image = error_icon;
@@ -52,54 +52,54 @@ namespace AIBehaviorTree
             BreakPointIcon.style.visibility = hasbreakpoint ? Visibility.Visible : Visibility.Hidden;
         }
 
-        private void CreateInputPorts()
-        {
-            if (m_Node is BTRoot)
-            {
-                //no inputs are needed for the root node
-            }
-            else
-            {
-                m_Input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
+        //private void CreateInputPorts()
+        //{
+        //    if (m_Node is BTRoot)
+        //    {
+        //        //no inputs are needed for the root node
+        //    }
+        //    else
+        //    {
+        //        m_Input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
                 
-            }
+        //    }
 
-            if (m_Input != null)
-            {
-                m_Input.AddManipulator(new EdgeConnector<Edge>(new EdgeConnectorListener()));
+        //    if (m_Input != null)
+        //    {
+        //        m_Input.AddManipulator(new EdgeConnector<Edge>(new EdgeConnectorListener()));
                 
-                m_Input.portName = "";
-                m_Input.style.flexDirection = FlexDirection.Column;
-                inputContainer.Add(m_Input);
-            }
+        //        m_Input.portName = "";
+        //        m_Input.style.flexDirection = FlexDirection.Column;
+        //        inputContainer.Add(m_Input);
+        //    }
 
-        }
+        //}
 
-        private void CreateOutputPorts()
-        {
-            if (m_Node is BTComposite)
-            {
-                m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
-            }
-            else if (m_Node is BTDecorator)
-            {
-                m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
-            }
-            else if (m_Node is BTRoot)
-            {
-                m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
-            }
+        //private void CreateOutputPorts()
+        //{
+        //    if (m_Node is BTComposite)
+        //    {
+        //        m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
+        //    }
+        //    else if (m_Node is BTDecorator)
+        //    {
+        //        m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
+        //    }
+        //    else if (m_Node is BTRoot)
+        //    {
+        //        m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
+        //    }
 
 
 
-            if (m_Output != null)
-            {
-                m_Output.AddManipulator(new EdgeConnector<Edge>(new EdgeConnectorListener()));
-                m_Output.portName = "";
-                m_Output.style.flexDirection = FlexDirection.ColumnReverse;
-                outputContainer.Add(m_Output);
-            }
-        }
+        //    if (m_Output != null)
+        //    {
+        //        m_Output.AddManipulator(new EdgeConnector<Edge>(new EdgeConnectorListener()));
+        //        m_Output.portName = "";
+        //        m_Output.style.flexDirection = FlexDirection.ColumnReverse;
+        //        outputContainer.Add(m_Output);
+        //    }
+        //}
 
         public override void SetPosition(Rect newPos)
         {
@@ -123,6 +123,7 @@ namespace AIBehaviorTree
         {
             return lhs.m_Position.x < rhs.m_Position.x ? -1 : 1;
         }
+
 
         //public override Port InstantiatePort(Orientation orientation, Direction direction, Port.Capacity capacity, Type type)
         //{

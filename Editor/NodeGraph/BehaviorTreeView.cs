@@ -242,21 +242,30 @@ namespace AIBehaviorTree
             });
         }
 
+        //creates an edge element and adds t to the graph, if b is child of a
         private void CreateEdgeElement(BTNode a, BTNode b)
         {
-            if (!a.ContainsChild(b)) return;
+            var index = a.GetChildIndex(b);
+            if (index == -1) return;
+
+            //if (!a.ContainsChild(b)) return;
 
             NodeView parentView = FindNodeElementView(a) as NodeView;
             NodeView childView = FindNodeElementView(b) as NodeView;
 
-            Edge edge = parentView.m_Output.ConnectTo(childView.m_Input);
-            AddElement(edge);
+
+            //Edge edge = parentView.m_Output.ConnectTo(childView.m_Input);
+            Edge edge = parentView.ConnectEdgeToChildren(childView, index);
+            if(edge != null)
+            {
+                AddElement(edge);
+            }
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             return ports.ToList().Where(endPort => endPort.direction != startPort.direction &&
-            endPort.node != startPort.node).ToList();
+            endPort.node != startPort.node && startPort.portType.IsSubclassOf(endPort.portType)).ToList();
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -278,9 +287,14 @@ namespace AIBehaviorTree
                     Edge edge = elem as Edge;
                     if (edge != null)
                     {
-                        NodeElementView parentView = edge.output.node as NodeElementView;
-                        NodeElementView childView = edge.input.node as NodeElementView;
-                        m_Tree.RemoveChild(parentView.m_Node, childView.m_Node);
+                        var input = edge.input;
+                        var output = edge.output ;
+
+                        NodeElementView parentView = output.node as NodeElementView;
+                        NodeElementView childView = input.node as NodeElementView;
+                        var parent = parentView.m_Node;
+                        var child = childView.m_Node;
+                        m_Tree.RemoveChild(parent, child);
                     }
                 });
             }
@@ -289,9 +303,14 @@ namespace AIBehaviorTree
             {
                 graphViewChange.edgesToCreate.ForEach(edge =>
                 {
-                    NodeElementView parentView = edge.output.node as NodeElementView;
-                    NodeElementView childView = edge.input.node as NodeElementView;
-                    m_Tree.AddChild(parentView.m_Node, childView.m_Node);
+                    var input = edge.input;
+                    var output = edge.output;
+
+                    NodeElementView parentView = output.node as NodeElementView;
+                    NodeElementView childView = input.node as NodeElementView;
+                    var parent = parentView.m_Node;
+                    var child = childView.m_Node;
+                    m_Tree.AddChild(parent, child);
 
                 });
             }

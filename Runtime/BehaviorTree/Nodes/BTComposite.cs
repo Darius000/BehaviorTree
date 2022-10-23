@@ -12,6 +12,7 @@ namespace AIBehaviorTree
     [DisplayName("Composite")]
     public abstract class BTComposite : BTNode
     {
+        [Output(Capacity = Capacity.Multi, Type = typeof(BTNode))]
         [HideInInspector] public List<BTNode> m_Children = new List<BTNode>();
 
         public override bool AddChild(BTNode node)

@@ -149,6 +149,12 @@ namespace AIBehaviorTree
             return GetChildren().Contains(b);
         }
 
-       
+        public int GetChildIndex(BTNode b)
+        {
+            if (ContainsChild(b))
+                return 0;
+
+            return -1;
+        }
     }
 }

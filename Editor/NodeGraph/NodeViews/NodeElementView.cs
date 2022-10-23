@@ -5,10 +5,13 @@ using UnityEngine;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using UnityEditor;
+using System.Reflection;
+using UnityEditor.Experimental.GraphView;
+using System.Runtime.InteropServices;
 
 namespace AIBehaviorTree
 {
-    public class NodeElementView : UnityEditor.Experimental.GraphView.Node
+    public class NodeElementView : Node
     {
         internal BTNode m_Node;
 
@@ -18,10 +21,15 @@ namespace AIBehaviorTree
 
         protected VisualElement m_Content { get; private set; }
 
+        public List<Port> Inputs { get; set; } = new List<Port>();
+
+        public List<Port> Outputs { get; set; } = new List<Port>();
 
         public NodeElementView(BTNode node, Action<NodeElementView> OnSelectedCallback = null, string uxml = default) : base(uxml)
         {
             m_Node = node;
+
+            CreatePins(node);
 
             //set serailized object and bind to this visual element
             m_SerializedObject = new SerializedObject(node);
@@ -57,6 +65,62 @@ namespace AIBehaviorTree
 
             capabilities |= ~UnityEditor.Experimental.GraphView.Capabilities.Copiable | UnityEditor.Experimental.GraphView.Capabilities.Renamable |
                 ~UnityEditor.Experimental.GraphView.Capabilities.Resizable;
+        }
+
+        //creates the node pins from attributes
+        private void CreatePins(BTNodeBase node)
+        {
+            var type = node.GetType();
+
+            //create inputs from attributes
+            ParseAttribute<InputAttribute>(type, Direction.Input, inputContainer, Inputs);
+
+            //create outputs from attibutes
+            ParseAttribute<OutputAttribute>(type, Direction.Output, outputContainer, Outputs);
+        }
+
+        private void ParseAttribute<T>(Type type, Direction direction, VisualElement container, List<Port> ports) where T : PinAttribute
+        {
+            //get attributes
+            var classAttribute = type.GetCustomAttribute<T>();
+            var fields = type.GetFields();
+            var properties = type.GetProperties();
+
+            
+            if (classAttribute != null)
+            {
+                var classinput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)classAttribute.Capacity, classAttribute.Type);
+                container.Add(classinput);
+                ports.Add(classinput);
+            }
+
+            foreach (var field in fields)
+            {
+                var fieldAttribute = field.GetCustomAttribute<T>();
+                if(fieldAttribute != null)
+                {
+                    var fieldinput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)fieldAttribute.Capacity, fieldAttribute.Type);
+                    container.Add(fieldinput);
+                    ports.Add(fieldinput);
+                }
+            }
+
+            foreach(var property in properties)
+            {
+                var propertyAttribute = property.GetCustomAttribute<T>();
+                if(propertyAttribute != null)
+                {
+                    var propertyInput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)propertyAttribute.Capacity, propertyAttribute.Type);
+                    container.Add(propertyInput);
+                    ports.Add(propertyInput);
+                }
+            }
+        }
+
+        public Edge ConnectEdgeToChildren(NodeView childView, int index)
+        {
+            if(childView.Inputs.Count == 0 || Outputs.Count == 0) return null;
+            return this.Outputs[index].ConnectTo(childView.Inputs[0]);
         }
 
         //set to false to allow rectangle selection
@@ -148,14 +212,7 @@ namespace AIBehaviorTree
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            //base.BuildContextualMenu(evt);
-
-            //if(evt.target is NodeElementView)
-            //{
-            //    evt.menu.AppendAction("Delete", (a) => OnDeleteNodeMenu());
-            //    evt.menu.AppendAction("Copy", (a) => { });
-            //    evt.menu.AppendAction("Duplicate", (a) => { });
-            //}
+            
         }
 
         public override void OnSelected()

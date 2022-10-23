@@ -8,6 +8,9 @@ using UnityEditor;
 
 namespace AIBehaviorTree
 {
+
+
+    [Input(Type = typeof(BTNodeBase))]
     public class BTNodeBase : ScriptableObject
     {
         [HideInInspector] public string m_GUID;
@@ -21,6 +24,7 @@ namespace AIBehaviorTree
         //text displayed on node title
         [HideInInspector] public string m_DisplayName;
 
+      
         public void Delete()
         {
             OnDelete();
