@@ -75,7 +75,7 @@ namespace AIBehaviorTree
         }
 
         //creates the node pins from attributes
-        private void CreatePins(BTNodeBase node)
+        private void CreatePins(BTNode node)
         {
             var type = node.GetType();
 

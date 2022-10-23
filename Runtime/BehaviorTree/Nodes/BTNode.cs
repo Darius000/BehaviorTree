@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.AI;
+using UnityEditor;
 
 namespace AIBehaviorTree
 {
     public enum EResult { Running, Failure, Success, Abort };
 
     [DisplayName("Node")]
-    public abstract class BTNode : BTNodeBase
+    [Input(Type = typeof(BTNode))]
+    public abstract class BTNode : ScriptableObject
     {
+        [HideInInspector] public string m_GUID;
+
+        [HideInInspector] public Vector2 m_Position;
+
+        [HideInInspector] public Action<BTNode> OnDeletedEvent;
+
+        [HideInInspector] public string m_Description;
+
+        //text displayed on node title
+        [HideInInspector] public string m_DisplayName;
 
         private EResult m_State = EResult.Running;
 
@@ -111,26 +123,66 @@ namespace AIBehaviorTree
             return;
         }
 
-        protected override void OnDelete()
+        public void Delete()
         {
-            base.OnDelete();
+            OnDelete();
+
+            if (OnDeletedEvent != null)
+            {
+                OnDeletedEvent.Invoke(this);
+            }
+        }
+
+        protected virtual void OnDelete()
+        {
+
+        }
+
+        protected void OnEnable()
+        {
+
+            m_Description = m_DisplayName = GetDisplayName();
+        }
+
+        public void SetPosition(Vector2 pos)
+        {
+            Undo.RecordObject(this, "Behavior Tree (Set Positon)");
+
+            m_Position = pos;
+
+            EditorUtility.SetDirty(this);
+
+
+        }
+
+        public virtual BTNode Clone()
+        {
+            var node = Instantiate(this);
+
+            return node;
+        }
+
+        //returns the display name if no displayname attribute default name is returned
+        public string GetDisplayName()
+        {
+            var attributes = GetType().GetCustomAttributes(typeof(DisplayNameAttribute), false);
+            if (attributes.Length > 0)
+            {
+                var nameAttribute = attributes[0] as DisplayNameAttribute;
+                return nameAttribute.DisplayName;
+            }
+
+            return name;
         }
 
 
-       
+
         public virtual bool AddChild(BTNode node) { return true; }
 
         public virtual void RemoveChild(BTNode node) { }
 
         public virtual List<BTNode> GetChildren() { return new List<BTNode>(); }
 
-
-        public override BTNodeBase Clone()
-        {
-            var node = Instantiate(this);
-
-            return node;
-        }
 
         public BlackBoard GetBlackBoard()
         {

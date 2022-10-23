@@ -49,14 +49,14 @@ namespace AIBehaviorTree
             return m_TreeState;
         }
 
-        public BTNodeBase PasteNode(BTNodeBase pastedNode, Vector2 pos = new Vector2())
+        public BTNode PasteNode(BTNode pastedNode, Vector2 pos = new Vector2())
         {
             var newNode = Instantiate(pastedNode);
             CreateNode(newNode, pos);
             return newNode;
         }
 
-        public BTNodeBase CreateNode(BTNodeBase node, Vector2 pos = new Vector2())
+        public BTNode CreateNode(BTNode node, Vector2 pos = new Vector2())
         {
             node.m_Position = pos;
             node.m_GUID = GUID.Generate().ToString();
@@ -83,14 +83,14 @@ namespace AIBehaviorTree
             return node;
         }
 
-        public BTNodeBase CreateNode(System.Type type, Vector2 pos = new Vector2())
+        public BTNode CreateNode(System.Type type, Vector2 pos = new Vector2())
         {
-            BTNodeBase node = ScriptableObject.CreateInstance(type) as BTNodeBase;
+            BTNode node = ScriptableObject.CreateInstance(type) as BTNode;
             node.name = type.Name;
             return CreateNode(node, pos);
         }
 
-        public void DeleteNode(BTNodeBase node)
+        public void DeleteNode(BTNode node)
         {
  
             Undo.RecordObject(this, "Behavior Tree (Delete Node)");

@@ -337,7 +337,7 @@ namespace AIBehaviorTree
             if (evt.target is GraphView)
             {
                 var mouseposition = evt.localMousePosition;
-                var types = TypeCache.GetTypesDerivedFrom<BTNodeBase>();
+                var types = TypeCache.GetTypesDerivedFrom<BTNode>();
                 foreach (var type in types)
                 {
                     var displayName = type.Name;
@@ -359,28 +359,27 @@ namespace AIBehaviorTree
             }
         }
 
-        internal BTNodeBase PasteNode(BTNodeBase pastedNode, Vector2 position)
+        internal BTNode PasteNode(BTNode pastedNode, Vector2 position)
         {
-            BTNodeBase node = m_Tree.PasteNode(pastedNode, position);
+            var node = m_Tree.PasteNode(pastedNode, position);
 
             OnNodeCreated(node);
 
             return node;
         }
 
-        internal BTNodeBase CreateNode(System.Type type, Vector2 position)
+        internal BTNode CreateNode(System.Type type, Vector2 position)
         {
-            BTNodeBase node = m_Tree.CreateNode(type, position);
+            var node = m_Tree.CreateNode(type, position);
             OnNodeCreated(node);
             
             return node;
         }
 
-        internal void OnNodeCreated(BTNodeBase node)
+        internal void OnNodeCreated(BTNode node)
         {
-            if (node is BTNode) CreateNodeView(node as BTNode);
-            else if (node is BTGroup) CreateGroupView(node as BTGroup);
-
+            if (node is BTGroup) CreateGroupView(node as BTGroup);
+            else if (node is BTNode) CreateNodeView(node);
         }
 
         GroupView CreateGroupView(BTGroup group)

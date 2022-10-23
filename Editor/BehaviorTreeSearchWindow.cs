@@ -46,7 +46,7 @@ namespace AIBehaviorTree
             };
 
            
-            var types = TypeCache.GetTypesDerivedFrom<BTNodeBase>();
+            var types = TypeCache.GetTypesDerivedFrom<BTNode>();
             foreach (var type in types)
             {
                 if (!type.IsAbstract)
@@ -100,10 +100,10 @@ namespace AIBehaviorTree
 
         public bool OnSelectEntry(SearchTreeEntry SearchTreeEntry, SearchWindowContext context)
         {
-            Vector2 localMousePosition = m_BehaviourTreeView.GetLocalMousePosition(context.screenMousePosition, true);
+            var localMousePosition = m_BehaviourTreeView.GetLocalMousePosition(context.screenMousePosition, true);
 
-            Type nodeType = SearchTreeEntry.userData as Type;
-            BTNodeBase node = m_BehaviourTreeView.CreateNode(nodeType, localMousePosition);
+            var nodeType = SearchTreeEntry.userData as Type;
+            var node = m_BehaviourTreeView.CreateNode(nodeType, localMousePosition);
             if(node != null)
             {
                 return true;

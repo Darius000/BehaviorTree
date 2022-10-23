@@ -42,10 +42,10 @@ namespace AIBehaviorTree
             return m_Children;
         }
 
-        public override BTNodeBase Clone()
+        public override BTNode Clone()
         {
             BTRoot node = Instantiate(this);
-            node.m_Children = m_Children.ConvertAll(child => child.Clone() as BTNode);
+            node.m_Children = m_Children.ConvertAll(child => child.Clone());
             return node;
         }
     }

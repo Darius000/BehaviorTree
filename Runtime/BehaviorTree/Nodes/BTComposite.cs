@@ -42,7 +42,7 @@ namespace AIBehaviorTree
 
         
 
-        public override BTNodeBase Clone()
+        public override BTNode Clone()
         {
             BTComposite node = Instantiate(this);
             node.m_Children = m_Children.ConvertAll(c => c.Clone() as BTNode);

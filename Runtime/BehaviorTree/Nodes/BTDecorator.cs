@@ -40,10 +40,10 @@ namespace AIBehaviorTree
             return new List<BTNode>{ Child};
         }
 
-        public override BTNodeBase Clone()
+        public override BTNode Clone()
         {
             BTDecorator node = Instantiate(this);
-            node.Child = Child.Clone() as BTNode;
+            node.Child = Child.Clone();
 
             return node;
         }

@@ -9,7 +9,7 @@ using UnityEditor;
 namespace AIBehaviorTree
 {
     [DisplayName("Group")]
-    public class BTGroup : BTNodeBase
+    public class BTGroup : BTNode
     {
         /*[HideInInspector] */public List<BTNode> m_Children;
 
@@ -65,10 +65,10 @@ namespace AIBehaviorTree
             }
         }
 
-        public override BTNodeBase Clone()
+        public override BTNode Clone()
         {
             BTGroup node = Instantiate(this);
-            node.m_Children = m_Children.ConvertAll(c => c.Clone() as BTNode);
+            node.m_Children = m_Children.ConvertAll(c => c.Clone());
             return node;
         }
     }
