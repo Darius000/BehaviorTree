@@ -415,7 +415,7 @@ namespace AIBehaviorTree
 			}
 		}
 
-		void OnNodeSelectionChanged(NodeElementView view)
+		void OnNodeSelectionChanged(NodeView view)
 		{
 			view.m_Node.OnDeletedEvent += (node) => { m_InspectorView.UpdateSelection(null); };
 			m_InspectorView.UpdateSelection(view);

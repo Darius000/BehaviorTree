@@ -33,7 +33,7 @@ namespace AIBehaviorTree
     //Behaviour Tree Graph View
     public class BehaviorTreeView : GraphView
     {
-        public Action<NodeElementView> m_OnNodeSelected;
+        public Action<NodeView> m_OnNodeSelected;
 
    
         private MiniMap m_MiniMap;
@@ -174,9 +174,9 @@ namespace AIBehaviorTree
             AssetDatabase.SaveAssets();
         }
 
-        NodeElementView FindNodeElementView(BTNode node)
+        NodeView FindNodeElementView(BTNode node)
         {
-            return GetNodeByGuid(node.m_GUID) as NodeElementView;
+            return GetNodeByGuid(node.m_GUID) as NodeView;
         }
 
         internal void PopulateView(BehaviorTree tree)
@@ -274,7 +274,7 @@ namespace AIBehaviorTree
             {
                 graphViewChange.elementsToRemove.ForEach(elem =>
                 {
-                    NodeElementView nodeView = elem as NodeElementView;
+                    var nodeView = elem as NodeView;
                     if (nodeView != null)
                     {
                         var node = nodeView.m_Node;
@@ -290,8 +290,8 @@ namespace AIBehaviorTree
                         var input = edge.input;
                         var output = edge.output ;
 
-                        NodeElementView parentView = output.node as NodeElementView;
-                        NodeElementView childView = input.node as NodeElementView;
+                        var parentView = output.node as NodeView;
+                        var childView = input.node as NodeView;
                         var parent = parentView.m_Node;
                         var child = childView.m_Node;
                         m_Tree.RemoveChild(parent, child);
@@ -306,8 +306,8 @@ namespace AIBehaviorTree
                     var input = edge.input;
                     var output = edge.output;
 
-                    NodeElementView parentView = output.node as NodeElementView;
-                    NodeElementView childView = input.node as NodeElementView;
+                    var parentView = output.node as NodeView;
+                    var childView = input.node as NodeView;
                     var parent = parentView.m_Node;
                     var child = childView.m_Node;
                     m_Tree.AddChild(parent, child);
@@ -320,7 +320,7 @@ namespace AIBehaviorTree
             {
                 nodes.ForEach((n) =>
                 {
-                    NodeElementView view = n as NodeElementView;
+                    var view = n as NodeView;
                     view.SortChildren();
                 });
             }
@@ -398,7 +398,7 @@ namespace AIBehaviorTree
         {
             if (node == null) return;
 
-            NodeView nodeView = new NodeView(node, m_OnNodeSelected);
+            var nodeView = new NodeView(node, m_OnNodeSelected);
 
             AddElement(nodeView);
         }

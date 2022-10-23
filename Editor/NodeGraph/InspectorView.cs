@@ -18,7 +18,7 @@ namespace AIBehaviorTree
 
         }
 
-        internal void UpdateSelection(NodeElementView view)
+        internal void UpdateSelection(NodeView view)
         {
             Clear();
 

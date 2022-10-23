@@ -2,30 +2,92 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 using UnityEditor;
-using System.Linq;
 using System.Reflection;
+using UnityEditor.Experimental.GraphView;
+using System.Runtime.InteropServices;
 
 namespace AIBehaviorTree
 {
-    public class NodeView : NodeElementView
+    public class NodeView : Node
     {
-        //public Port m_Input;
-        //public Port m_Output;
+        public BTNode m_Node;
+
+
+        private SerializedObject m_SerializedObject;
+
+        public Action<NodeView> OnSelectedEvent;
+
         public Image BreakPointIcon = new Image() { style = { position = Position.Absolute } };
 
-        public NodeView(BTNode node, Action<NodeElementView> OnSelectedCallback = null) : base(node, OnSelectedCallback, 
-            AssetDatabase.GetAssetPath(BehaviorTreeSettings.GetOrCreateSettings().m_NodeUXML))
+
+        public List<Port> Inputs { get; set; } = new List<Port>();
+
+        public List<Port> Outputs { get; set; } = new List<Port>();
+
+        public NodeView(BTNode node, Action<NodeView> OnSelectedCallback = null) 
+            : base(AssetDatabase.GetAssetPath(BehaviorTreeSettings.GetOrCreateSettings().m_NodeUXML))
         {
+            m_Node = node;
+
             style.left = node.m_Position.x;
             style.top = node.m_Position.y;
-            
-            //CreateInputPorts();
-            //CreateOutputPorts();
 
+            CreatePins(node);
+            CreateBreakPoint();
+
+            //set serailized object and bind to this visual element
+            m_SerializedObject = new SerializedObject(node);
+            this.Bind(m_SerializedObject);
+
+
+            string iconPath = "";
+            
+            //find icon attribute and set node icon
+            var iconattributes = node.GetType().GetCustomAttributes(typeof(NodeIconAttribute), true);
+            if (iconattributes.Length > 0)
+            {
+                var iconAttribute = iconattributes[0] as NodeIconAttribute;
+                iconPath = iconAttribute.IconPath;
+
+                var icon = this.Q<VisualElement>("Icon");
+                if (icon != null)
+                {
+                    icon.style.backgroundImage = new StyleBackground(Resources.Load<Texture2D>(iconPath));
+                    icon.style.display = DisplayStyle.Flex;
+                }
+            }
+
+            title = node.GetDisplayName();
+            viewDataKey = node.m_GUID;
+
+            OnSelectedEvent = OnSelectedCallback;
+
+            node.OnCompletedEvent = OnNodeCompleteExecution;
+
+            SetUpClasses();
+            SetUpDescription(node);
+
+            capabilities |= ~UnityEditor.Experimental.GraphView.Capabilities.Copiable | UnityEditor.Experimental.GraphView.Capabilities.Renamable |
+                ~UnityEditor.Experimental.GraphView.Capabilities.Resizable;
+        }
+
+        //creates the node pins from attributes
+        private void CreatePins(BTNodeBase node)
+        {
+            var type = node.GetType();
+
+            //create inputs from attributes
+            ParseAttribute<InputAttribute>(type, Direction.Input, inputContainer, Inputs);
+
+            //create outputs from attibutes
+            ParseAttribute<OutputAttribute>(type, Direction.Output, outputContainer, Outputs);
+        }
+
+        private void CreateBreakPoint()
+        {
             var error_icon = EditorGUIUtility.IconContent("console.erroricon").image;
             BreakPointIcon.image = error_icon;
             BreakPointIcon.style.left = -error_icon.width / 2.0f;
@@ -35,16 +97,52 @@ namespace AIBehaviorTree
             base.hierarchy.Add(BreakPointIcon);
 
             //initilaize breakpoint visibility
-            ToggleBreakPoint(node.m_BreakPoint);
-            node.OnBreakPointSet += ToggleBreakPoint;
+            ToggleBreakPoint(m_Node.m_BreakPoint);
+            m_Node.OnBreakPointSet += ToggleBreakPoint;
         }
 
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        private void ParseAttribute<T>(Type type, Direction direction, VisualElement container, List<Port> ports) where T : PinAttribute
         {
-            base.BuildContextualMenu(evt);
+            //get attributes
+            var classAttribute = type.GetCustomAttribute<T>();
+            var fields = type.GetFields();
+            var properties = type.GetProperties();
 
-            var breakpoint_text = m_Node.m_BreakPoint ?  "Remove Breakpoint" : "Add Breakpoint";
-            evt.menu.AppendAction(breakpoint_text, (action) => { m_Node.ToggleBreakPoint(); });
+            
+            if (classAttribute != null)
+            {
+                var classinput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)classAttribute.Capacity, classAttribute.Type);
+                container.Add(classinput);
+                ports.Add(classinput);
+            }
+
+            foreach (var field in fields)
+            {
+                var fieldAttribute = field.GetCustomAttribute<T>();
+                if(fieldAttribute != null)
+                {
+                    var fieldinput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)fieldAttribute.Capacity, fieldAttribute.Type);
+                    container.Add(fieldinput);
+                    ports.Add(fieldinput);
+                }
+            }
+
+            foreach(var property in properties)
+            {
+                var propertyAttribute = property.GetCustomAttribute<T>();
+                if(propertyAttribute != null)
+                {
+                    var propertyInput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)propertyAttribute.Capacity, propertyAttribute.Type);
+                    container.Add(propertyInput);
+                    ports.Add(propertyInput);
+                }
+            }
+        }
+
+        public Edge ConnectEdgeToChildren(NodeView childView, int index)
+        {
+            if(childView.Inputs.Count == 0 || Outputs.Count == 0) return null;
+            return this.Outputs[index].ConnectTo(childView.Inputs[0]);
         }
 
         private void ToggleBreakPoint(bool hasbreakpoint)
@@ -52,64 +150,120 @@ namespace AIBehaviorTree
             BreakPointIcon.style.visibility = hasbreakpoint ? Visibility.Visible : Visibility.Hidden;
         }
 
-        //private void CreateInputPorts()
-        //{
-        //    if (m_Node is BTRoot)
-        //    {
-        //        //no inputs are needed for the root node
-        //    }
-        //    else
-        //    {
-        //        m_Input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
-                
-        //    }
 
-        //    if (m_Input != null)
-        //    {
-        //        m_Input.AddManipulator(new EdgeConnector<Edge>(new EdgeConnectorListener()));
-                
-        //        m_Input.portName = "";
-        //        m_Input.style.flexDirection = FlexDirection.Column;
-        //        inputContainer.Add(m_Input);
-        //    }
+        //set to false to allow rectangle selection
+        public override bool IsStackable()
+        {
+            return false;
+        }
 
-        //}
+        public override bool IsSelectable()
+        {
+            return true;
+        }
 
-        //private void CreateOutputPorts()
-        //{
-        //    if (m_Node is BTComposite)
-        //    {
-        //        m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
-        //    }
-        //    else if (m_Node is BTDecorator)
-        //    {
-        //        m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Single, typeof(bool));
-        //    }
-        //    else if (m_Node is BTRoot)
-        //    {
-        //        m_Output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
-        //    }
+        public override bool IsCopiable()
+        {
+            return true;
+        }
+
+        public override bool IsResizable()
+        {
+            return false;
+        }
+
+        //delete node using menu
+        protected void OnDeleteNodeMenu()
+        {
+            m_Node.Delete();
+
+            RemoveFromHierarchy();
+        }
+        private void OnNodeCompleteExecution(EResult result)
+        {
+            RemoveFromClassList("running");
+            RemoveFromClassList("failure");
+            RemoveFromClassList("success");
+
+            if (Application.isPlaying)
+            {
+                switch (result)
+                {
+                    case EResult.Running:
+                        if (m_Node.m_BeganExecution)
+                        {
+                            AddToClassList("running");
+                        }
+                        break;
+                    case EResult.Failure:
+                        AddToClassList("failure");
+                        break;
+                    case EResult.Success:
+                        AddToClassList("success");
+                        break;
+                }
+            }
+        }
 
 
+        private void SetUpClasses()
+        {
 
-        //    if (m_Output != null)
-        //    {
-        //        m_Output.AddManipulator(new EdgeConnector<Edge>(new EdgeConnectorListener()));
-        //        m_Output.portName = "";
-        //        m_Output.style.flexDirection = FlexDirection.ColumnReverse;
-        //        outputContainer.Add(m_Output);
-        //    }
-        //}
+            if (m_Node is BTComposite)
+            {
+                AddToClassList("composite");
+            }
+            else if (m_Node is BTDecorator)
+            {
+                AddToClassList("decorator");
+            }
+            else if (m_Node is BTRoot)
+            {
+                AddToClassList("root");
+            }
+            else
+            {
+                AddToClassList("leaf");
+            }
+        }
+
+        private void SetUpDescription(BTNode node)
+        {
+            Label descriptionLabel = this.Q<Label>("description");
+
+            if (descriptionLabel != null)
+            {
+                descriptionLabel.bindingPath = "m_Description";
+                descriptionLabel.Bind(new SerializedObject(node));
+            }
+        }
+
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            var breakpoint_text = m_Node.m_BreakPoint ? "Remove Breakpoint" : "Add Breakpoint";
+            evt.menu.AppendAction(breakpoint_text, (action) => { m_Node.ToggleBreakPoint(); });
+        }
+
+        public override void OnSelected()
+        {
+            base.OnSelected();
+
+            if (OnSelectedEvent != null)
+            {
+                OnSelectedEvent.Invoke(this);
+            }
+        }
 
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
 
+            //store position in node
             m_Node.SetPosition(newPos.min);
         }
 
         //sorts children in the composite node when moved in graph
-        public override void SortChildren()
+        public void SortChildren()
         {
             BTComposite composite = m_Node as BTComposite;
             if (composite)
@@ -124,10 +278,5 @@ namespace AIBehaviorTree
             return lhs.m_Position.x < rhs.m_Position.x ? -1 : 1;
         }
 
-
-        //public override Port InstantiatePort(Orientation orientation, Direction direction, Port.Capacity capacity, Type type)
-        //{
-        //    return BTPort.Create<Edge>(orientation, direction, capacity, type);
-        //}
     }
 }
