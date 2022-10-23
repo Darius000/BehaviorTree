@@ -9,6 +9,7 @@ using System;
 using UnityEditor.UIElements;
 using UnityEngine.AI;
 using UnityEditor.Experimental.GraphView;
+using System.Linq;
 
 namespace AIBehaviorTree
 {
@@ -124,7 +125,7 @@ namespace AIBehaviorTree
 
         public List<BTNode> GetChildren(BTNode parent)
         {
-            return parent.GetChildren();
+            return parent.GetChildren().ToList();
         }
 
         public void Traverse(BTNode node, System.Action<BTNode> visitor)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System;
 using UnityEngine.AI;
@@ -181,7 +182,7 @@ namespace AIBehaviorTree
 
         public virtual void RemoveChild(BTNode node) { }
 
-        public virtual List<BTNode> GetChildren() { return new List<BTNode>(); }
+        public virtual IEnumerable<BTNode> GetChildren() { return new List<BTNode>(); }
 
 
         public BlackBoard GetBlackBoard()

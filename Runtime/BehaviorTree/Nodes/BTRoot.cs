@@ -37,7 +37,7 @@ namespace AIBehaviorTree
             m_Children.Remove(node);
         }
 
-        public override List<BTNode> GetChildren()
+        public override IEnumerable<BTNode> GetChildren()
         {
             return m_Children;
         }

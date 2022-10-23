@@ -260,6 +260,7 @@ namespace AIBehaviorTree
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
+            var node = startPort.node as NodeView;
             return ports.ToList().Where(endPort => endPort.direction != startPort.direction &&
             endPort.node != startPort.node && 
             (startPort.portType.IsSubclassOf(endPort.portType) || 

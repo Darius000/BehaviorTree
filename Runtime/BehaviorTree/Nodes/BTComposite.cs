@@ -35,7 +35,7 @@ namespace AIBehaviorTree
             EditorUtility.SetDirty(this);
         }
 
-        public override List<BTNode> GetChildren()
+        public override IEnumerable<BTNode> GetChildren()
         {
             return m_Children;
         }

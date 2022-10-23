@@ -11,7 +11,7 @@ namespace AIBehaviorTree
     [DisplayName("Group")]
     public class BTGroup : BTNode
     {
-        /*[HideInInspector] */public List<BTNode> m_Children;
+        [HideInInspector]  public List<BTNode> m_Children;
 
         public string m_Title = "New Group";
 
