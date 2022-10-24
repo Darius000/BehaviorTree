@@ -35,6 +35,13 @@ Each key constists of the following :
 
 ![Nodes](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/NodeTypes.png?raw=true)
 
+<h4>Composites</h4>
+ <ul>
+  <li>Selector - Runs first successful child</li> 
+  <li>Seqeunce - Runs though all children until a failure is returned</li>
+  <li>Fallback - Runs until one its children returns success</li> 
+ </ul>
+
 <h3> Settings </h3>
 
 ![Settings](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/Settings.png?raw=true)
