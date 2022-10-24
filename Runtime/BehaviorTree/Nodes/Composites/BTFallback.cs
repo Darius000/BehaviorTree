@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
+    /// <summary>
+    /// Keeps executing unitl a child returns success
+    /// </summary>
     [DisplayName("Fallback")]
     public class BTFallback : BTComposite
     {
