@@ -3,6 +3,10 @@
 <p> Behaviour tree is a package for Unity that contains that ability to program Unity AI in an efficient way. </p>
 <p> The goal was to create a node based behavior tree system for AI in Unity to improve efficiency for achieving developing complex AI behaviors. </p>
 <p> Inspired my Unreal Engine's Behavior Tree Design and needed an editor to create AI Bahviours as quickly as possible this Behavior Tree Was created.
+<p> Uses Scriptable objects to store the behaviour tree and blackboard data <p>
+
+<h2> Features </h2>
+<h3> Undo/Redo <h3>
 
 ![Editor](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/BehaviourTreeEditor.png?raw=true)
 
@@ -58,14 +62,45 @@ Each key constists of the following :
   <li>Move To Location</li>
   <li>Wait</li>   
  </ul>
+ 
+ <h4>Miscellaneous</h4>
+ <ul>
+  <li>Group - Groups Nodes Together</li>  
+ </ul>
 
 <h3> Settings </h3>
 
 ![Settings](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/Settings.png?raw=true)
 
+<p>
+	The settings of the behavior tree can be set in the project Settings.
+	The user can change the node style to a custom uxml element
+	The templates for creating a new decorator or task script can also be set, as well the icon used for 
+	blackboard keys
+</p>
+
 <h3> Menu Options </h3>
 
 ![Options](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/ToolBar.png?raw=true)
+
+<p>
+	When opening a behavior tree there are menu options that can found.
+	<ul>
+		<li> Current Scene AI - When the editor is opened and the editor is played a list will generate
+		with all the ai using this Behviour Tree -selecting one will show the nodes that are running
+		</li>
+		<li> New BlackBoard - allows creation of a new BlackBoard asset <li>
+		<li> New Decorator - allows creation of a new Decorator Script <li>
+		<li> New Task - allows creation of a new Task Script <li>
+		<li> MiniMap -Togglesthe minimap <li>
+		<li> Save - Save the behavior tree directly <li>
+	</ul>
+
+<p>
+
+<h3> Debugging </h3>
+<p> Selecting an AI using a behavior tree, the scene editor will displaty info about the behaviour tree as well as the current data of each blackboard keys </p>
+<p> A breakpoint can be added to a node in order to pause the behavior tree </p>
 
 <h4>Note:</h4>
 <p>The base project is based off the Unity's shader graph but doesn't
