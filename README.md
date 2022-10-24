@@ -27,6 +27,8 @@ Each key constists of the following :
   <li>Key Name</li>
   <li>Instance - Which determines if the key is the same across different trees</li>
   </ul>
+  </p>
+  
 ![BlackBoard](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/BlackBoardEditor.png?raw=true)
 
 <h3> Nodes Currently Available </h3>
