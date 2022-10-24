@@ -5,12 +5,13 @@
 <p> Inspired my Unreal Engine's Behavior Tree Design and needed an editor to create AI Bahviours as quickly as possible this Behavior Tree Was created.
 <p> Uses Scriptable objects to store the behaviour tree and blackboard data <p>
 
+![Editor](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/BehaviourTreeEditor.png?raw=true)
+
 <h2> Features </h2>
 <h3> Undo/Redo <h3>
 
-![Editor](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/BehaviourTreeEditor.png?raw=true)
-
 <h3> BlackBoard </h3>
+
 <p> The Blackboard is an asset that can be created from the assets create menu.
   right-click->Behavior Tree->Blackboard.
   Just like Unreal blackboard asset, different keys can be added to store certain data that a behavior tree can access.
@@ -89,11 +90,11 @@ Each key constists of the following :
 		<li> Current Scene AI - When the editor is opened and the editor is played a list will generate
 		with all the ai using this Behviour Tree -selecting one will show the nodes that are running
 		</li>
-		<li> New BlackBoard - allows creation of a new BlackBoard asset <li>
-		<li> New Decorator - allows creation of a new Decorator Script <li>
-		<li> New Task - allows creation of a new Task Script <li>
-		<li> MiniMap -Togglesthe minimap <li>
-		<li> Save - Save the behavior tree directly <li>
+		<li> New BlackBoard - allows creation of a new BlackBoard asset </li>
+		<li> New Decorator - allows creation of a new Decorator Script </li>
+		<li> New Task - allows creation of a new Task Script </li>
+		<li> MiniMap -Togglesthe minimap </li>
+		<li> Save - Save the behavior tree directly </li>
 	</ul>
 
 <p>
