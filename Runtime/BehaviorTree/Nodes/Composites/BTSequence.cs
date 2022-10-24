@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
@@ -13,17 +14,17 @@ namespace AIBehaviorTree
     {
         private int m_CurrentNode = 0;
 
-        protected override void OnBeginExecute()
+        protected override void OnBeginExecute(NavMeshAgent agent)
         {
             m_CurrentNode = 0;
         }
 
-        protected override EResult OnExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
             if(m_Children.Count == 0) return EResult.Success;
 
             var child = m_Children[m_CurrentNode];
-            switch(child.Execute())
+            switch(child.Execute(agent))
             {
                 case EResult.Running:
                     return EResult.Running;

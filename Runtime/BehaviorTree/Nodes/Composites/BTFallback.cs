@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
@@ -8,12 +9,12 @@ namespace AIBehaviorTree
     public class BTFallback : BTComposite
     {
         private int m_CurrentNode = 0;
-        protected override EResult OnExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
             if (m_Children.Count == 0) return EResult.Success;
 
             var child = m_Children[m_CurrentNode];
-            switch (child.Execute())
+            switch (child.Execute(agent))
             {
                 case EResult.Running:
                     return EResult.Running;

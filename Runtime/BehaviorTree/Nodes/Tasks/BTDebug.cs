@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
@@ -15,11 +16,11 @@ namespace AIBehaviorTree
         [SerializeReference]
         public BlackBoardKeySelector m_KeySelector = new BlackBoardKeySelector();
 
-        protected override EResult OnExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
             Debug.Log(m_Message);
 
-            var key = GetBlackBoard().GetKey(m_KeySelector.GetName());
+            var key = Tree.GetBlackBoard().GetKey(m_KeySelector.GetName());
             if (key != null)
             {
                 Debug.Log(key.GetObjectValue());

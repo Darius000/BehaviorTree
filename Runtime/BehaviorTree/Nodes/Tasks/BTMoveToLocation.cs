@@ -24,11 +24,11 @@ namespace AIBehaviorTree
         public BlackBoardKeySelector m_BlackBoardKeySelector = new BlackBoardKeySelector();
 
 
-        protected override void OnBeginExecute()
+        protected override void OnBeginExecute(NavMeshAgent agent)
         {
             if (m_BlackBoardKeySelector == null) return;
 
-            var target = GetBlackBoard().GetKey(m_BlackBoardKeySelector.GetName()).GetObjectValue();
+            var target = Tree.GetBlackBoard().GetKey(m_BlackBoardKeySelector.GetName()).GetObjectValue();
 
             if (target != null)
             {
@@ -41,22 +41,22 @@ namespace AIBehaviorTree
                     targetPosition = (Vector3)target;
                 }
 
-                m_DestinationSet = m_Agent.SetDestination(targetPosition);
+                m_DestinationSet = agent.SetDestination(targetPosition);
 
             }
         }
 
-        protected override EResult OnExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
             if (m_DestinationSet)
             {
-                float distance = m_IncludeAgentRadius ? m_Agent.radius + .1f : .1f;
-                if (m_Agent.remainingDistance > distance)
+                float distance = m_IncludeAgentRadius ? agent.radius + .1f : .1f;
+                if (agent.remainingDistance > distance)
                 {
-                    switch (m_Agent.pathStatus)
+                    switch (agent.pathStatus)
                     {
                         case NavMeshPathStatus.PathComplete: return EResult.Running;
-                        case NavMeshPathStatus.PathPartial: { m_Agent.SetDestination(targetPosition); return EResult.Running; }
+                        case NavMeshPathStatus.PathPartial: { agent.SetDestination(targetPosition); return EResult.Running; }
                         case NavMeshPathStatus.PathInvalid:
                             return EResult.Failure;
                     }

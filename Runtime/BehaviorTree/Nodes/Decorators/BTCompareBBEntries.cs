@@ -24,8 +24,8 @@ namespace AIBehaviorTree
 
         protected override bool PerformConditionCheck(NavMeshAgent agent, GameObject agentGameObject)
         {
-            var a = GetBlackBoard().GetKey(BlackBoardKeyA.GetName());
-            var b = GetBlackBoard().GetKey(BlackBoardKeyB.GetName());
+            var a = Tree.GetBlackBoard().GetKey(BlackBoardKeyA.GetName());
+            var b = Tree.GetBlackBoard().GetKey(BlackBoardKeyB.GetName());
 
             if(Operator == EEqualOperation.IsEqualTo)
             {

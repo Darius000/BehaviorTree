@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
@@ -15,14 +16,14 @@ namespace AIBehaviorTree
 
         private int CurrentLoop = 0;
 
-        protected override void OnBeginExecute()
+        protected override void OnBeginExecute(NavMeshAgent agent)
         {
-            base.OnBeginExecute();
+            base.OnBeginExecute(agent);
 
             CurrentLoop = 0;
         }
 
-        protected override EResult OnExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
             
             if (!InfiniteLoop)
@@ -34,7 +35,7 @@ namespace AIBehaviorTree
                 CurrentLoop++;
             }
 
-            Child.Execute();
+            Child.Execute(agent);
 
 
             return EResult.Running;

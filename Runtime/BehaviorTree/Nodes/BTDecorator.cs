@@ -50,12 +50,12 @@ namespace AIBehaviorTree
 
         protected virtual bool PerformConditionCheck(NavMeshAgent agent, GameObject agentGameObject) { return true; }
 
-        protected override EResult OnExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
-            bool condition = PerformConditionCheck(m_Agent, m_Agent.gameObject);
+            bool condition = PerformConditionCheck(agent, agent.gameObject);
             if (Child != null && condition)
             {
-                return Child.Execute();
+                return Child.Execute(agent);
             }
             else if(!condition)
             {

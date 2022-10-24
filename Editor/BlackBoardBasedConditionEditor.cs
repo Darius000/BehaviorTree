@@ -34,7 +34,7 @@ namespace AIBehaviorTree
                 serializedObject.ApplyModifiedProperties();
             }
 
-            var bb = node?.Tree?.m_BlackBoard;
+            var bb = node?.Tree?.GetBlackBoard();
             Type type = null;
 
             if (bb != null)

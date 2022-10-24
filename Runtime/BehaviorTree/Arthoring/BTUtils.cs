@@ -13,7 +13,7 @@ namespace AIBehaviorTree
     {
         public static object GetObjectFromKey(BTNode node, BlackBoardKeySelector selector)
         {
-            return node.GetBlackBoard()?.GetKey(selector.GetName())?.GetObjectValue();
+            return node.Tree?.GetBlackBoard()?.GetKey(selector.GetName())?.GetObjectValue();
         }
 
 

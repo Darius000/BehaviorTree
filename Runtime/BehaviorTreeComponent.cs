@@ -36,7 +36,7 @@ namespace AIBehaviorTree
             if (m_Tree)
             {
                 m_Tree = m_Tree.Clone();
-                m_Tree.Bind(m_Agent);
+                m_Tree.Bind();
 
             }
 
@@ -53,7 +53,7 @@ namespace AIBehaviorTree
         void Update()
         {
             if (m_Tree && m_IsRunning && !m_IsPaused)
-                m_Tree.Update();
+                m_Tree.Run(m_Agent);
         }
 
         public bool IsRunning { get { return m_IsRunning; } }

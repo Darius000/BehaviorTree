@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
@@ -14,14 +15,14 @@ namespace AIBehaviorTree
 
         private float m_StartTime;
 
-        protected override void OnBeginExecute()
+        protected override void OnBeginExecute(NavMeshAgent agent)
         {
-            base.OnBeginExecute();
+            base.OnBeginExecute(agent);
 
             m_StartTime = Time.time;
         }
 
-        protected override EResult OnExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
             if (Time.time - m_StartTime > m_Duration)
             {

@@ -37,7 +37,7 @@ namespace AIBehaviorTree
         protected override bool PerformConditionCheck(NavMeshAgent agent, GameObject gameObject)
         {
             
-            var obj = GetBlackBoard().GetKey(m_BlackboardKeySelector.GetName()).GetObjectValue();
+            var obj = Tree.GetBlackBoard().GetKey(m_BlackboardKeySelector.GetName()).GetObjectValue();
 
             if(m_OperationType == EOperationType.Basic)
             {
@@ -170,7 +170,7 @@ namespace AIBehaviorTree
         }
         public object GetCurrentValue()
         {
-            var key = GetBlackBoard().GetKey(m_BlackboardKeySelector.GetName());
+            var key = Tree.GetBlackBoard().GetKey(m_BlackboardKeySelector.GetName());
             var type =  key ? key.GetKeyType() : null;
 
             switch(type)
@@ -192,7 +192,7 @@ namespace AIBehaviorTree
 
         public void SetCurrentValue(object value)
         {
-            var key = GetBlackBoard().GetKey(m_BlackboardKeySelector.GetName());
+            var key = Tree.GetBlackBoard().GetKey(m_BlackboardKeySelector.GetName());
             var type =  key ? key.GetKeyType() : null;
 
 

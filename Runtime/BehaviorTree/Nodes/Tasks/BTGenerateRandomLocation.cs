@@ -22,7 +22,7 @@ namespace AIBehaviorTree
 
         public Vector3 m_Constraints = new Vector3(1, 1, 1);
 
-        protected override EResult OnExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
             Vector3 random = UnityEngine.Random.insideUnitSphere;
             Vector3 randomDirection = Vector3.Scale(random, m_Constraints.normalized) * m_WalkRadius;
@@ -32,7 +32,7 @@ namespace AIBehaviorTree
             {
                 if(m_BlackboardKeySelector != null)
                 {
-                    GetBlackBoard().SetKeyValue(m_BlackboardKeySelector.GetName(), hit.position);
+                     Tree?.GetBlackBoard().SetKeyValue(m_BlackboardKeySelector.GetName(), hit.position);
 
                      return EResult.Success;
                 }

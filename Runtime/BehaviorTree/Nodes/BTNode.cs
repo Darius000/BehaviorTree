@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using UnityEngine.AI;
 using UnityEditor;
+using Unity.Plastic.Antlr3.Runtime.Tree;
 
 namespace AIBehaviorTree
 {
@@ -31,16 +32,11 @@ namespace AIBehaviorTree
 
         [HideInInspector] public bool m_BeganExecution = false;
 
-        [HideInInspector] public BehaviorTree m_Tree;
-
-        [HideInInspector] public NavMeshAgent m_Agent;
-
-        [HideInInspector] public BehaviorTree Tree { get { return m_Tree; } set { m_Tree = value; } }
-
-
         public Action<EResult> OnCompletedEvent;
 
         public Action<bool> OnBreakPointSet;
+
+        public BehaviorTree Tree { get; set; }
 
 #if UNITY_EDITOR
         [HideInInspector]
@@ -77,7 +73,7 @@ namespace AIBehaviorTree
             m_State = EResult.Abort;
         }
 
-        public EResult Execute()
+        public EResult Execute(NavMeshAgent agent)
         {
 #if UNITY_EDITOR
             if (m_BreakPoint)
@@ -89,37 +85,37 @@ namespace AIBehaviorTree
 
             if(m_State == EResult.Abort)
             {
-                return Execute();
+                return EResult.Abort;
             }
 
             if (!m_BeganExecution)
             {
-                OnBeginExecute();
+                OnBeginExecute(agent);
                 m_BeganExecution = true;
             }
 
-            SetState(OnExecute());
+            SetState(OnExecute(agent));
 
             if (m_State == EResult.Success || m_State == EResult.Failure)
             {
-                OnEndExecute();
+                OnEndExecute(agent);
                 m_BeganExecution = false;
             }
 
             return m_State;
         }
 
-        protected virtual EResult OnExecute()
+        protected virtual EResult OnExecute(NavMeshAgent agent)
         {
             return EResult.Failure;
         }
 
-        protected virtual void OnBeginExecute()
+        protected virtual void OnBeginExecute(NavMeshAgent agent)
         {
             return;
         }
 
-        protected virtual void OnEndExecute()
+        protected virtual void OnEndExecute(NavMeshAgent agent)
         {
             return;
         }
@@ -184,17 +180,9 @@ namespace AIBehaviorTree
 
         public virtual IEnumerable<BTNode> GetChildren() { return new List<BTNode>(); }
 
-
-        public BlackBoard GetBlackBoard()
+        internal void InitializeRuntimeNode(BehaviorTree tree)
         {
-            return m_Tree ? m_Tree.m_BlackBoard: null;
-        }
-
-        internal void InitializeRuntimeNode(NavMeshAgent agnet, BehaviorTree tree)
-        {
-            m_Tree = tree;
-            m_Agent = agnet;
-
+            Tree = tree;
         }
 
         public bool ContainsChild(BTNode b)

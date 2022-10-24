@@ -40,15 +40,17 @@ namespace AIBehaviorTree
 
 
         // Update is called once per frame
-        public EResult Update()
+        public EResult Run(NavMeshAgent agent)
         {
             if(m_Root.State == EResult.Running)
             {
-                m_TreeState = m_Root.Execute();
+                m_TreeState = m_Root.Execute( agent);
             }
 
             return m_TreeState;
         }
+
+        public BlackBoard GetBlackBoard() { return m_BlackBoard; }
 
         public BTNode PasteNode(BTNode pastedNode, Vector2 pos = new Vector2())
         {
@@ -68,7 +70,7 @@ namespace AIBehaviorTree
             if (node is BTNode)
             {
                 BTNode bt_node = (BTNode)node;
-                bt_node.m_Tree = this;
+                bt_node.Tree = this;
                 m_Nodes.Add(bt_node);
             }
             else if (node is BTGroup)
@@ -149,13 +151,14 @@ namespace AIBehaviorTree
             return tree;
         }
 
-       
 
-        public void Bind(NavMeshAgent agent)
+
+        public void Bind()
         {
+            
             Traverse(m_Root, node =>
             {
-                node.InitializeRuntimeNode(agent, this);
+                node.InitializeRuntimeNode(this);
             });
         }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
@@ -11,14 +12,9 @@ namespace AIBehaviorTree
         [Output(Capacity = Capacity.Multi, Type = typeof(BTNode))]
         [HideInInspector] public List<BTNode> m_Children = new List<BTNode>();
 
-        protected override void OnBeginExecute()
+        protected override EResult OnExecute(NavMeshAgent agent)
         {
-            
-        }
-
-        protected override EResult OnExecute()
-        {
-            m_Children.ForEach(child => child.Execute());
+            m_Children.ForEach(child => child.Execute(agent));
 
             return EResult.Running; 
         }
