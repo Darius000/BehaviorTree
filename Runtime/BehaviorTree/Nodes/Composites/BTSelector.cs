@@ -7,6 +7,9 @@ using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
+    /// <summary>
+    /// Runs first successful child
+    /// </summary>
     [DisplayName("Selector")]
     [NodeIcon("Selector")]
     internal class BTSelector : BTComposite

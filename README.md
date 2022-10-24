@@ -41,6 +41,23 @@ Each key constists of the following :
   <li>Seqeunce - Runs though all children until a failure is returned</li>
   <li>Fallback - Runs until one its children returns success</li> 
  </ul>
+ 
+ <h4>Decorators</h4>
+ <ul>
+  <li>Black Board Based Condition</li> 
+  <li>Compare Black Board Entries</li>
+  <li>Conditional Loop - Repeats based on a condition</li> 
+  <li>Force Success</li> 
+  <li>Repeat - Finite or Infinite Loop</li> 
+ </ul>
+ 
+ <h4>Tasks</h4>
+ <ul>
+  <li>Debug</li> 
+  <li>Generate Random Location</li>
+  <li>Move To Location</li>
+  <li>Wait</li>   
+ </ul>
 
 <h3> Settings </h3>
 

@@ -8,6 +8,9 @@ using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
+    /// <summary>
+    /// Runs though all children until a failure is returned
+    /// </summary>
     [DisplayName("Sequence")]
     [NodeIcon("Sequence")]
     public class BTSequence : BTComposite
