@@ -9,6 +9,14 @@ namespace AIBehaviorTree
     [System.Serializable]
     public class VectorBlackBoardKey : TBlackBoardKeyType<Vector3>
     {
+        public VectorBlackBoardKey() : base() { }
+
+        public VectorBlackBoardKey(VectorBlackBoardKey other) : base(other) { }
+
+        protected override BlackBoardKey OnClone()
+        {
+            return new VectorBlackBoardKey(this);
+        }
     }
 }
 

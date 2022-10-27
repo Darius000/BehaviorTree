@@ -11,6 +11,13 @@ namespace AIBehaviorTree
     [System.Serializable]
     public class StringBlackBoardKey : TBlackBoardKeyType<string>
     {
+        public StringBlackBoardKey() : base() { }
 
+        public StringBlackBoardKey(StringBlackBoardKey other) : base(other) { }
+
+        protected override BlackBoardKey OnClone()
+        {
+            return new StringBlackBoardKey(this);
+        }
     }
 }

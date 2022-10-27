@@ -12,6 +12,13 @@ namespace AIBehaviorTree
     [System.Serializable]
     public class FloatBlackBoardKey : TBlackBoardKeyType<float>
     {
-        
+        public FloatBlackBoardKey():base(){}
+
+        public FloatBlackBoardKey(FloatBlackBoardKey other) : base(other) { }
+
+        protected override BlackBoardKey OnClone()
+        {
+            return new FloatBlackBoardKey(this);
+        }
     }
 }

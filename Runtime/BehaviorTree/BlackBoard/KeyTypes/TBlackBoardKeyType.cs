@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AIBehaviorTree
 {
-
+    [System.Serializable]
     public class TBlackBoardKeyType<T> : BlackBoardKey
     {
 
@@ -37,8 +37,7 @@ namespace AIBehaviorTree
 
         protected override BlackBoardKey OnClone()
         {
-            var key =  new TBlackBoardKeyType<T>(this);
-            return key;
+            throw new NotImplementedException();
         }
     }
 }

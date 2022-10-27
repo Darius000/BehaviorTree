@@ -11,5 +11,13 @@ namespace AIBehaviorTree
     [System.Serializable]
     public class EnumBlackBoardKey : TBlackBoardKeyType<Enum>
     {
+        public EnumBlackBoardKey() : base() { }
+
+        public EnumBlackBoardKey(EnumBlackBoardKey other) : base(other) { }
+
+        protected override BlackBoardKey OnClone()
+        {
+            return new EnumBlackBoardKey(this);
+        }
     }
 }

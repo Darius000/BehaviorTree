@@ -12,6 +12,13 @@ namespace AIBehaviorTree
     [System.Serializable]
     public class ObjectBlackBoardKey : TBlackBoardKeyType<UnityEngine.Object>
     {
-     
+        public ObjectBlackBoardKey() : base() { }
+
+        public ObjectBlackBoardKey(ObjectBlackBoardKey other) : base(other) { }
+
+        protected override BlackBoardKey OnClone()
+        {
+            return new ObjectBlackBoardKey(this);
+        }
     }
 }

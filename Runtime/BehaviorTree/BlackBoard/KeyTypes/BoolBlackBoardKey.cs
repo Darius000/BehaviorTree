@@ -11,5 +11,13 @@ namespace AIBehaviorTree
     [System.Serializable]
     public class BoolBlackBoardKey : TBlackBoardKeyType<bool>
     {
+        public BoolBlackBoardKey() : base() { }
+
+        public BoolBlackBoardKey(BoolBlackBoardKey other) : base(other) { }
+
+        protected override BlackBoardKey OnClone()
+        {
+            return new BoolBlackBoardKey(this);
+        }
     }
 }

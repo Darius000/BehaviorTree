@@ -5,25 +5,54 @@ using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
+    /// <summary>
+    /// Plays a legacy Animation
+    /// </summary>
     [DisplayName("Play Animation")]
     public class BTPlayAnimation : BTTaskNode
     {
-        public string Trigger;
-        private Animator Animator;
+        public AnimationClip AnimationClip;
+        private Animation Animation;
+        private float ElaspedTime = 0.0f;
 
         protected override void OnBeginExecute(NavMeshAgent agent)
         {
-            if(!Animator)
+            if (!Animation)
             {
-                Animator = agent.GetComponent<Animator>();
+                Animation = agent.GetComponent<Animation>();
             }
+
+            if(Animation.clip != AnimationClip)
+            {
+                Animation.clip = AnimationClip;
+                
+            }
+
         }
 
         protected override EResult OnExecute(NavMeshAgent agent)
         {
-            if (!Animator) return EResult.Failure;
+            if (!Animation) return EResult.Failure;
 
-            Animator.SetTrigger(Trigger);
+            
+
+            if(!Animation.isPlaying)
+            {
+                Animation.Play();
+            }
+            
+            if(Animation.isPlaying)
+            {
+
+                ElaspedTime += Time.deltaTime;
+                if (AnimationClip.length > ElaspedTime)
+                {
+                    return EResult.Running;  
+                }
+
+                Animation.Stop();
+                ElaspedTime = 0.0f;
+            }
 
             return EResult.Success;
         }
