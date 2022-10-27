@@ -8,6 +8,7 @@ namespace AIBehaviorTree
 {
     [BlackBoardKeyColor(1, 0, 0)]
     [DisplayName(DisplayName = "Bool")]
+    [System.Serializable]
     public class BoolBlackBoardKey : TBlackBoardKeyType<bool>
     {
     }

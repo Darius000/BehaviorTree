@@ -11,7 +11,7 @@ namespace AIBehaviorTree
     [CreateAssetMenu(menuName = "BehaviorTree/BlackBoard")]
     public class BlackBoard : ScriptableObject
     {
-        [HideInInspector, SerializeField]
+        [SerializeField, SerializeReference]
         protected List<BlackBoardKey> m_Keys = new List<BlackBoardKey>();
 
         public Action<List<BlackBoardKey>> OnKeysChangedEvent;
@@ -49,13 +49,13 @@ namespace AIBehaviorTree
 
         public void AddNewKey(BlackBoardKey key)
         {
-            key.name = System.Guid.NewGuid().ToString();
+            key.ID = System.Guid.NewGuid().ToString();
             key.m_KeyName = BlackBoardKey.GetDefaultName();
 
             m_Keys.Add(key);
 
-            AssetDatabase.AddObjectToAsset(key, this);
-            AssetDatabase.SaveAssetIfDirty(this);
+            //AssetDatabase.AddObjectToAsset(key, this);
+            //AssetDatabase.SaveAssetIfDirty(this);
  
             OnKeyAddedEvent?.Invoke(key);
         }
@@ -68,8 +68,8 @@ namespace AIBehaviorTree
 
             m_Keys.Remove(key);
 
-            AssetDatabase.RemoveObjectFromAsset(key);
-            AssetDatabase.SaveAssetIfDirty(this);
+            //AssetDatabase.RemoveObjectFromAsset(key);
+            //AssetDatabase.SaveAssetIfDirty(this);
 
             
         }
@@ -120,16 +120,6 @@ namespace AIBehaviorTree
             EditorGUILayout.PropertyField(elementProperty, true);
             obj.ApplyModifiedProperties();
             OnBlackBoardKeyUpdated?.Invoke(index);
-        }
-
-        internal void DrawDebugInfo()
-        {
-            GizmoUtils.DrawString("BlackBoard(" + name + ")", Color.white);
-            foreach(var key in m_Keys)
-            {
-                key.DrawDebugInfo();
-               
-            }
         }
     }
 }

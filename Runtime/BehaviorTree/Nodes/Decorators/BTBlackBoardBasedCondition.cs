@@ -171,7 +171,7 @@ namespace AIBehaviorTree
         public object GetCurrentValue()
         {
             var key = Tree.GetBlackBoard().GetKey(m_BlackboardKeySelector.GetName());
-            var type =  key ? key.GetKeyType() : null;
+            var type =  key != null ? key.GetKeyType() : null;
 
             switch(type)
             {
@@ -193,7 +193,7 @@ namespace AIBehaviorTree
         public void SetCurrentValue(object value)
         {
             var key = Tree.GetBlackBoard().GetKey(m_BlackboardKeySelector.GetName());
-            var type =  key ? key.GetKeyType() : null;
+            var type =  key != null ? key.GetKeyType() : null;
 
 
             switch (type)

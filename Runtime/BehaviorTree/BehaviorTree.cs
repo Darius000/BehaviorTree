@@ -172,39 +172,35 @@ namespace AIBehaviorTree
             }
         }
 
+#if UNITY_EDITOR
         internal void DrawDebugInfo(BehaviorTreeComponent behaviourTreeComponent)
         {
             if (!Application.isPlaying) return;
             
-            //BlackBoard Data
+            //AI Data
             var gameobject = behaviourTreeComponent.gameObject;
-            GizmoUtils.BeginStringGUI(gameobject.transform.position);
 
-            m_BlackBoard.DrawDebugInfo();
-            GizmoUtils.EndStringGUI();
+            string debug = "[Category : AI] " +
+                "\n\tGameObject Name:" + gameobject.name + "\n\tNavData :" + behaviourTreeComponent.GetAgent()?.navMeshOwner +
+                ",Path Status : " + behaviourTreeComponent.GetAgent()?.pathStatus + " \n\tBehavior : " + m_TreeState +
+                "\n[Category : Behavior Tree]" + "\n\tBehavior Tree : " + name.Replace("(Clone)", "");
 
+          
             //AI Data
             var pos = new Vector2(0f, Screen.height - 100f);
-            GizmoUtils.BeginStringGUI(pos, true);
-            GizmoUtils.DrawString("[Category : AI]", Color.green);
+            GizmoUtils.DrawString(debug, pos, Color.green, true);
 
-            GizmoUtils.DrawString("GameObject Name:", Color.white);
-            GizmoUtils.SameLine();
-            GizmoUtils.DrawString(gameobject.name, Color.yellow);
+            //BlackBoard data
+            string blackBoardData = "";
+            foreach (var key in m_BlackBoard.GetAllKeys())
+            {
+                var obj = key.GetObjectValue();
+                blackBoardData += key.m_KeyName + " : " + (obj == null ? "null" : obj.ToString()) + "\n"; 
+            }
 
-            
-            GizmoUtils.DrawString("NavData :"  + behaviourTreeComponent.GetAgent()?.navMeshOwner +
-                ",Path Status : " + behaviourTreeComponent.GetAgent()?.pathStatus, new Color[] { Color.white, Color.yellow });
-
-            GizmoUtils.DrawString("Behavior : " + m_TreeState, new Color[] { Color.white, Color.yellow });
-
-
-            //Behaviour Tree Data
-            GizmoUtils.DrawString("[Category : Behavior Tree]", Color.green);
-            GizmoUtils.DrawString("Behavior Tree : " + name.Replace("(Clone)", ""), new Color[] { Color.white, Color.yellow });
-            
-           
-            GizmoUtils.EndStringGUI();
+            GizmoUtils.DrawString(blackBoardData, gameobject.transform.position, Color.yellow);
         }
+
+#endif
     }
 }

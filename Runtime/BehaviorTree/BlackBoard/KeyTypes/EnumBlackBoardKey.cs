@@ -8,6 +8,7 @@ namespace AIBehaviorTree
 {
     [DisplayName("Enum")]
     [BlackBoardKeyColor(0f, .7f, .1f)]
+    [System.Serializable]
     public class EnumBlackBoardKey : TBlackBoardKeyType<Enum>
     {
     }

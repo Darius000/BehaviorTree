@@ -8,11 +8,14 @@ using UnityEngine;
 
 namespace AIBehaviorTree
 {
-    public abstract class BlackBoardKey : ScriptableObject
+    [System.Serializable]
+    public abstract class BlackBoardKey
     {
         public static string GetDefaultName() { return "New Key"; }
 
         public string m_KeyName = "";
+
+        public string ID { get; set; }
 
         public string m_Description = "";
 
@@ -27,6 +30,14 @@ namespace AIBehaviorTree
 
         }
 
+        public BlackBoardKey(BlackBoardKey key)
+        {
+            m_KeyName = key.m_KeyName;
+            ID = key.ID;
+            m_Description = key.m_Description;
+            m_IsInstance = key.m_IsInstance;
+            _object = key._object;
+        }
         public abstract Type GetKeyType();
 
         public virtual T GetValue<T>()
@@ -68,6 +79,17 @@ namespace AIBehaviorTree
             return "";
         }
 
+        //public static implicit operator bool(BlackBoardKey instance)
+        //{
+        //    return instance != null;
+        //}
+
+
+        public static bool operator !(BlackBoardKey key)
+        {
+            return key != null;
+        }
+
         internal BlackBoardKey Clone()
         {
             if (m_IsInstance)
@@ -86,18 +108,5 @@ namespace AIBehaviorTree
         }
 
         protected abstract BlackBoardKey OnClone();
-
-        public void DrawDebugInfo()
-        {
-            GizmoUtils.DrawString(m_KeyName + ": ", Color.white);
-            GizmoUtils.SameLine();
-            OnDrawObjectDebugInfo();
-        }
-
-        protected virtual void OnDrawObjectDebugInfo()
-        {
-            var text = GetObjectValue() == null ? "(Invalid)" : GetObjectValue().ToString();
-            GizmoUtils.DrawString(text, Color.yellow);
-        }
     }
 }

@@ -8,6 +8,7 @@ namespace AIBehaviorTree
 {
     [DisplayName("String")]
     [BlackBoardKeyColor(1f, .5f, .5f)]
+    [System.Serializable]
     public class StringBlackBoardKey : TBlackBoardKeyType<string>
     {
 

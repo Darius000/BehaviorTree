@@ -9,6 +9,7 @@ namespace AIBehaviorTree
 {
     [BlackBoardKeyColor(.5f, 1, .5f)]
     [DisplayName("Float")]
+    [System.Serializable]
     public class FloatBlackBoardKey : TBlackBoardKeyType<float>
     {
         

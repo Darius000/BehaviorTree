@@ -72,7 +72,7 @@ namespace AIBehaviorTree
 
 		public static void OpenWindowAsset(BehaviorTree tree)
 		{
-			BehaviorTreeEditor wnd = CreateWindow<BehaviorTreeEditor>(tree.name);
+			BehaviorTreeEditor wnd = GetWindow<BehaviorTreeEditor>(tree.name);
 
 			if (wnd != null)
 			{

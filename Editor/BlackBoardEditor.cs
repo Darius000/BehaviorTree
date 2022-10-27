@@ -37,7 +37,7 @@ namespace AIBehaviorTree
 
 		public static void OpenBlackBoardAsset(BlackBoard asset)
 		{
-			BlackBoardEditor wnd = CreateWindow<BlackBoardEditor>();
+			BlackBoardEditor wnd = GetWindow<BlackBoardEditor>();
 			wnd.minSize = new Vector2(800, 600);
 			wnd.Initialize(asset);
 		}

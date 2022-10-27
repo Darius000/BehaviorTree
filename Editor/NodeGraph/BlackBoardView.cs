@@ -216,7 +216,7 @@ namespace AIBehaviorTree
             var keyexists = BlackBoard.ContainsKey(BlackBoardKey.GetDefaultName());
             if (!keyexists)
             {
-                var key = ScriptableObject.CreateInstance(type) as BlackBoardKey;
+                var key = Activator.CreateInstance(type) as BlackBoardKey;
               
                 BlackBoard.AddNewKey(key);
 

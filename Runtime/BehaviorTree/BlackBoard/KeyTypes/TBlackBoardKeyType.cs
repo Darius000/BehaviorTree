@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 
 namespace AIBehaviorTree
 {
+
     public class TBlackBoardKeyType<T> : BlackBoardKey
     {
 
         public TBlackBoardKeyType()
         {
             _object = default(T);
+        }
+
+        public TBlackBoardKeyType(TBlackBoardKeyType<T> key) : base(key)
+        {
+            _object = key._object;
         }
 
         public T GetValue()
@@ -31,7 +37,8 @@ namespace AIBehaviorTree
 
         protected override BlackBoardKey OnClone()
         {
-            return Instantiate(this);
+            var key =  new TBlackBoardKeyType<T>(this);
+            return key;
         }
     }
 }

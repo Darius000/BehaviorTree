@@ -86,9 +86,7 @@ namespace AIBehaviorTree
             m_Tree.DrawDebugInfo(this);
 
             
-        }
-
-        
+        }       
 #endif
     }
 }
