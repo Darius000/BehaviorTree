@@ -14,15 +14,15 @@ namespace AIBehaviorTree
         public string Trigger;
         private Animator Animator;
 
-        protected override void OnBeginExecute(NavMeshAgent agent)
+        protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)
         {
             if(!Animator)
             {
-                Animator = agent.GetComponent<Animator>();
+                Animator = controller.GetComponent<Animator>();
             }
         }
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             if (!Animator) return EResult.Failure;
 

@@ -40,11 +40,11 @@ namespace AIBehaviorTree
 
 
         // Update is called once per frame
-        public EResult Run(NavMeshAgent agent)
+        public EResult Run(NavMeshAgent agent, AIController controller)
         {
             if(m_Root.State == EResult.Running)
             {
-                m_TreeState = m_Root.Execute( agent);
+                m_TreeState = m_Root.Execute( agent, controller);
             }
 
             return m_TreeState;
@@ -145,7 +145,7 @@ namespace AIBehaviorTree
             BehaviorTree tree = Instantiate(this);
             tree.m_Root = tree.m_Root.Clone() as BTNode;
             tree.m_Nodes = new List<BTNode>();
-            tree.m_BlackBoard = tree.m_BlackBoard.Clone();
+            tree.m_BlackBoard = tree.m_BlackBoard?.Clone();
             Traverse(tree.m_Root, (n) => tree.m_Nodes.Add(n));
 
             return tree;
@@ -173,16 +173,16 @@ namespace AIBehaviorTree
         }
 
 #if UNITY_EDITOR
-        internal void DrawDebugInfo(BehaviorTreeComponent behaviourTreeComponent)
+        internal void DrawDebugInfo(AIController controller)
         {
             if (!Application.isPlaying) return;
             
             //AI Data
-            var gameobject = behaviourTreeComponent.gameObject;
+            var gameobject = controller.gameObject;
 
             string debug = "[Category : AI] " +
-                "\n\tGameObject Name:" + gameobject.name + "\n\tNavData :" + behaviourTreeComponent.GetAgent()?.navMeshOwner +
-                ",Path Status : " + behaviourTreeComponent.GetAgent()?.pathStatus + " \n\tBehavior : " + m_TreeState +
+                "\n\tGameObject Name:" + gameobject.name + "\n\tNavData :" + controller.GetAgent()?.navMeshOwner +
+                ",Path Status : " + controller.GetAgent()?.pathStatus + " \n\tBehavior : " + m_TreeState +
                 "\n[Category : Behavior Tree]" + "\n\tBehavior Tree : " + name.Replace("(Clone)", "");
 
           
@@ -191,14 +191,17 @@ namespace AIBehaviorTree
             GizmoUtils.DrawString(debug, pos, Color.green, true);
 
             //BlackBoard data
-            string blackBoardData = "";
-            foreach (var key in m_BlackBoard.GetAllKeys())
+            if(m_BlackBoard != null)
             {
-                var obj = key.GetObjectValue();
-                blackBoardData += key.m_KeyName + " : " + (obj == null ? "null" : obj.ToString()) + "\n"; 
-            }
+                string blackBoardData = "";
+                foreach (var key in m_BlackBoard.GetAllKeys())
+                {
+                    var obj = key.GetObjectValue();
+                    blackBoardData += key.m_KeyName + " : " + (obj == null ? "null" : obj.ToString()) + "\n";
+                }
 
-            GizmoUtils.DrawString(blackBoardData, gameobject.transform.position, Color.yellow);
+                GizmoUtils.DrawString(blackBoardData, gameobject.transform.position, Color.yellow);
+            }
         }
 
 #endif

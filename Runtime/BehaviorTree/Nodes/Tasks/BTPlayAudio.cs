@@ -13,7 +13,7 @@ namespace AIBehaviorTree
 
         public float Volume = 1.0f;
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             if (!Audio) return EResult.Failure;
 

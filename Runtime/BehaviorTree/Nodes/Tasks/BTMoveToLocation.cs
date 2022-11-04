@@ -24,7 +24,7 @@ namespace AIBehaviorTree
         public BlackBoardKeySelector m_BlackBoardKeySelector = new BlackBoardKeySelector();
 
 
-        protected override void OnBeginExecute(NavMeshAgent agent)
+        protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)
         {
             if (m_BlackBoardKeySelector == null) return;
 
@@ -46,7 +46,7 @@ namespace AIBehaviorTree
             }
         }
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             if (m_DestinationSet)
             {

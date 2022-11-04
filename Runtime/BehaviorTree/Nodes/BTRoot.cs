@@ -12,9 +12,9 @@ namespace AIBehaviorTree
         [Output(Capacity = Capacity.Multi, Type = typeof(BTNode))]
         [HideInInspector] public List<BTNode> m_Children = new List<BTNode>();
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
-            m_Children.ForEach(child => child.Execute(agent));
+            m_Children.ForEach(child => child.Execute(agent, controller));
 
             return EResult.Running; 
         }

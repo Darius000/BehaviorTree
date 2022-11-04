@@ -9,6 +9,11 @@ namespace AIBehaviorTree
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class OutputAttribute : PinAttribute
     {
-       
+        public OutputAttribute() : base()
+        {
+
+        }
+
+        public OutputAttribute(Type type, Capacity capacity = Capacity.Single) : base(type, capacity) { }
     }
 }

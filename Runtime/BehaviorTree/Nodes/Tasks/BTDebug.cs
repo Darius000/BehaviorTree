@@ -16,11 +16,11 @@ namespace AIBehaviorTree
         [SerializeReference]
         public BlackBoardKeySelector m_KeySelector = new BlackBoardKeySelector();
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             Debug.Log(m_Message);
 
-            var key = Tree.GetBlackBoard().GetKey(m_KeySelector.GetName());
+            var key = Tree?.GetBlackBoard()?.GetKey(m_KeySelector.GetName());
             if (key != null)
             {
                 Debug.Log(key.GetObjectValue());

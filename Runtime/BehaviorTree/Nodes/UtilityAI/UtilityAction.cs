@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
@@ -8,7 +9,11 @@ namespace AIBehaviorTree
     public class UtilityAction : UtilityNode
     {
         [Output(Capacity = Capacity.Multi, Type = typeof(UtilityConsideration))]
+        [HideInInspector]
         public List<UtilityConsideration> Considerations = new List<UtilityConsideration>();
+
+        [Output(Type = typeof(BTNode))]
+        public BTNode Action;
 
         public override bool AddChild(BTNode node)
         {
@@ -21,13 +26,33 @@ namespace AIBehaviorTree
                     return true;
                 }
             }
+            else
+            {
+                Action = node;
+            }
 
             return false;
         }
 
         public override IEnumerable<BTNode> GetChildren()
         {
-            return Considerations;
+           var children = new List<BTNode>() { Action };
+           children.AddRange(Considerations);
+           return children;
+        }
+
+        public override int GetChildIndex(BTNode b)
+        {
+            if(b is UtilityConsideration utilityConsideration)
+            {
+                if (Considerations.Contains(utilityConsideration)) return 0;
+            }
+            else if(Action == b)
+            {
+                return 1;
+            }
+
+            return -1;
         }
 
         public override void RemoveChild(BTNode node)
@@ -38,6 +63,10 @@ namespace AIBehaviorTree
                 {
                     Considerations.Remove(utilityConsideration);
                 }
+            }
+            else if(Action == node)
+            {
+                Action = null;
             }
         }
 
@@ -68,6 +97,21 @@ namespace AIBehaviorTree
             Score = originalScore + (makeUpValue * originalScore);
 
             return Score;
+        }
+
+        public virtual Vector3 GetRequiredLocation()
+        {
+            return Vector3.zero;
+        }
+
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
+        {
+            if(Action)
+            {
+                return Action.Execute(agent, controller);
+            }
+
+            return EResult.Success;
         }
     }
 }

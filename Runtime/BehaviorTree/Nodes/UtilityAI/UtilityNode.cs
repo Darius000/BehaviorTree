@@ -8,8 +8,10 @@ namespace AIBehaviorTree
     [Category("Utility AI")]
     public abstract class UtilityNode : BTNode
     {
-        [field: SerializeField]
-        public float Score { get; set; } = 0f;
+        
+        public float Score { get { return score; } set { score = Mathf.Clamp01(value); } }
+
+        private float score;
 
         public abstract float EvaluateScore();
     }

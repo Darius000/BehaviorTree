@@ -112,7 +112,7 @@ namespace AIBehaviorTree
 			}
 		}
 
-		private void OnAISelected(BehaviorTreeComponent obj)
+		private void OnAISelected(AIController obj)
 		{
 			var tree = obj.Tree;
 

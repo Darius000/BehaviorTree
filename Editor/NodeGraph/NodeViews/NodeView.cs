@@ -105,13 +105,15 @@ namespace AIBehaviorTree
             var classAttribute = type.GetCustomAttribute<T>();
             var fields = type.GetFields();
             var properties = type.GetProperties();
-
             
+
             if (classAttribute != null)
             {
                 var classinput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)classAttribute.Capacity, classAttribute.Type);
+                
                 container.Add(classinput);
                 ports.Add(classinput);
+                
             }
 
             foreach (var field in fields)
@@ -120,8 +122,10 @@ namespace AIBehaviorTree
                 if(fieldAttribute != null)
                 {
                     var fieldinput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)fieldAttribute.Capacity, fieldAttribute.Type);
+                    
                     container.Add(fieldinput);
                     ports.Add(fieldinput);
+
                 }
             }
 
@@ -131,6 +135,7 @@ namespace AIBehaviorTree
                 if(propertyAttribute != null)
                 {
                     var propertyInput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)propertyAttribute.Capacity, propertyAttribute.Type);
+                    
                     container.Add(propertyInput);
                     ports.Add(propertyInput);
                 }

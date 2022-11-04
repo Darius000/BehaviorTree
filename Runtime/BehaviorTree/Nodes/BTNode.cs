@@ -34,6 +34,8 @@ namespace AIBehaviorTree
 
         public Action<EResult> OnCompletedEvent;
 
+        public Action OnFinishedEvent;
+
         public Action<bool> OnBreakPointSet;
 
         public BehaviorTree Tree { get; set; }
@@ -73,7 +75,7 @@ namespace AIBehaviorTree
             m_State = EResult.Abort;
         }
 
-        public EResult Execute(NavMeshAgent agent)
+        public EResult Execute(NavMeshAgent agent, AIController controller)
         {
 #if UNITY_EDITOR
             if (m_BreakPoint)
@@ -90,32 +92,34 @@ namespace AIBehaviorTree
 
             if (!m_BeganExecution)
             {
-                OnBeginExecute(agent);
+                OnBeginExecute(agent , controller);
                 m_BeganExecution = true;
             }
 
-            SetState(OnExecute(agent));
+            SetState(OnExecute(agent, controller));
 
             if (m_State == EResult.Success || m_State == EResult.Failure)
             {
-                OnEndExecute(agent);
+                OnEndExecute(agent, controller);
                 m_BeganExecution = false;
             }
+
+            OnFinishedEvent?.Invoke();
 
             return m_State;
         }
 
-        protected virtual EResult OnExecute(NavMeshAgent agent)
+        protected virtual EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             return EResult.Failure;
         }
 
-        protected virtual void OnBeginExecute(NavMeshAgent agent)
+        protected virtual void OnBeginExecute(NavMeshAgent agent, AIController controller)
         {
             return;
         }
 
-        protected virtual void OnEndExecute(NavMeshAgent agent)
+        protected virtual void OnEndExecute(NavMeshAgent agent, AIController controller)
         {
             return;
         }
@@ -177,7 +181,7 @@ namespace AIBehaviorTree
             return GetChildren().Contains(b);
         }
 
-        public int GetChildIndex(BTNode b)
+        public virtual int GetChildIndex(BTNode b)
         {
             if (ContainsChild(b))
                 return 0;

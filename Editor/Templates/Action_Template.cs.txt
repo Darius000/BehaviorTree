@@ -4,28 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using AIBehaviorTree;
-using UnityEngine.AI;
+using AIBehaviorTree.Utils;
 
-public class #SCRIPTNAME# : BTDecorator 
+public class #SCRIPTNAME# : UtilityAction
 {	
-    protected override bool PerformConditionCheck(NavMeshAgent agent, GameObject gameObject) 
-    { 
-        return true; 
-    }
-
     protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)
     {
-        base.OnBeginExecute();
+        return;
     }
 
-       
     protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
     {
-        return base.OnExecute();
+        return EResult.Success;
     }
 
     protected override void OnEndExecute(NavMeshAgent agent, AIController controller)
     {
-        base.OnEndExecute();
+        return;
     }
 }

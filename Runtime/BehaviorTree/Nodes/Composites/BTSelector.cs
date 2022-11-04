@@ -16,17 +16,17 @@ namespace AIBehaviorTree
     {
         private int m_CurrentNode = 0;
 
-        protected override void OnBeginExecute(NavMeshAgent agent)
+        protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)
         {
             m_CurrentNode = 0;
         }
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             if (m_Children.Count == 0) return EResult.Success;
 
             var child = m_Children[m_CurrentNode];
-            switch (child.Execute(agent))
+            switch (child.Execute(agent, controller))
             {
                 case EResult.Running:
                     return EResult.Running;

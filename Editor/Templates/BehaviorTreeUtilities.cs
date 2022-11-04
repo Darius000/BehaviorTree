@@ -33,6 +33,8 @@ namespace AIBehaviorTree
             CreateFromTemplate(name, template_path);
         }
 
+        
+
         [MenuItem("Assets/Create/BehaviorTree/Create Behavior Nodes/BTTask C# Script", false, 89)]
         public static void CreateBTTaskNode()
         {
@@ -46,6 +48,32 @@ namespace AIBehaviorTree
             CreateFromTemplate(name, template_path);
         }
 
+        [MenuItem("Assets/Create/BehaviorTree/Create Behavior Nodes/Utility Action C# Script", false, 89)]
+        public static void CreateUtilityActionNode()
+        {
+            string template_path = AssetDatabase.GetAssetPath(BehaviorTreeSettings.GetOrCreateSettings().m_ScriptTemplateAction);
+            if (template_path.Length == 0)
+            {
+                Debug.LogWarning("Template not found in asset DataBase");
+            }
+
+            string name = ShowPathDialog("New Action");
+            CreateFromTemplate(name, template_path);
+        }
+
+        [MenuItem("Assets/Create/BehaviorTree/Create Behavior Nodes/Utility Consideration C# Script", false, 89)]
+        public static void CreateUtilityConsiderationNode()
+        {
+            string template_path = AssetDatabase.GetAssetPath(BehaviorTreeSettings.GetOrCreateSettings().m_ScriptTemplateConsideration);
+            if (template_path.Length == 0)
+            {
+                Debug.LogWarning("Template not found in asset DataBase");
+            }
+
+            string name = ShowPathDialog("New Consideration");
+            CreateFromTemplate(name, template_path);
+        }
+
         private static string ShowPathDialog(string itemName)
         {
             var path = EditorUtility.SaveFilePanelInProject("Create New " + itemName, itemName, "cs", "", m_LastCreationPath);
@@ -53,6 +81,8 @@ namespace AIBehaviorTree
             if (string.IsNullOrEmpty(path)) return null;
 
             m_LastCreationPath = Path.GetDirectoryName(path);
+
+            Debug.Log(m_LastCreationPath);
 
             return path;
         }

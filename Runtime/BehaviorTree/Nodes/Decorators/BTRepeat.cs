@@ -16,14 +16,14 @@ namespace AIBehaviorTree
 
         private int CurrentLoop = 0;
 
-        protected override void OnBeginExecute(NavMeshAgent agent)
+        protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)
         {
-            base.OnBeginExecute(agent);
+            base.OnBeginExecute(agent, controller);
 
             CurrentLoop = 0;
         }
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             
             if (!InfiniteLoop)
@@ -35,7 +35,7 @@ namespace AIBehaviorTree
                 CurrentLoop++;
             }
 
-            Child.Execute(agent);
+            Child.Execute(agent, controller);
 
 
             return EResult.Running;

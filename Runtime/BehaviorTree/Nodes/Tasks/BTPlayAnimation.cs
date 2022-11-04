@@ -15,11 +15,11 @@ namespace AIBehaviorTree
         private Animation Animation;
         private float ElaspedTime = 0.0f;
 
-        protected override void OnBeginExecute(NavMeshAgent agent)
+        protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)
         {
             if (!Animation)
             {
-                Animation = agent.GetComponent<Animation>();
+                Animation = controller.GetComponent<Animation>();
             }
 
             if(Animation.clip != AnimationClip)
@@ -30,7 +30,7 @@ namespace AIBehaviorTree
 
         }
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             if (!Animation) return EResult.Failure;
 

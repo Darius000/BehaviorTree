@@ -16,18 +16,18 @@ namespace AIBehaviorTree
 
         public EKeyOperation KeyQuery;
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             var a = BTUtils.GetObjectFromKey(this, BlackBoardKey);
 
             if(KeyQuery == EKeyOperation.IsSet && a != null )
             {
-                Child.Execute(agent);
+                Child.Execute(agent, controller);
                 return EResult.Running;
             }
             else if(KeyQuery == EKeyOperation.IsNotSet && a == null)
             {
-                Child.Execute(agent);
+                Child.Execute(agent, controller);
                 return EResult.Running;
             }
 

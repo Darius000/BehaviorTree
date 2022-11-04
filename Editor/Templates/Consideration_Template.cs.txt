@@ -1,0 +1,15 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+using AIBehaviorTree;
+using AIBehaviorTree.Utils;
+
+public class #SCRIPTNAME# : UtilityConsideration
+{	
+    public override float EvaluateScore()
+    {
+        return Score;
+    }
+}

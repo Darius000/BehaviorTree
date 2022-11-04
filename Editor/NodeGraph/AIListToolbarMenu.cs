@@ -16,7 +16,7 @@ namespace AIBehaviorTree
         public Func<BehaviorTree> GetBehaviorTree { get; set; }
 
 
-        public Action<BehaviorTreeComponent> OnAISelectedEvent;
+        public Action<AIController> OnAISelectedEvent;
 
 
         public AIListToolbarMenu(Func<BehaviorTree> GetBehaviorTree)
@@ -59,7 +59,7 @@ namespace AIBehaviorTree
         public void PopulateList()
         {
             var type = GetBehaviorTree?.Invoke().GetType();
-            var ai = GameObject.FindObjectsOfType<BehaviorTreeComponent>();
+            var ai = GameObject.FindObjectsOfType<AIController>();
 
 
             foreach (var component in ai)
@@ -81,7 +81,7 @@ namespace AIBehaviorTree
 
         private void SelectGameObjectFromDropDown(DropdownMenuAction action)
         {
-            var component = action.userData as BehaviorTreeComponent;
+            var component = action.userData as AIController;
 
             Debug.Log(component.gameObject.name);
 

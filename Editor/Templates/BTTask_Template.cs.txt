@@ -7,17 +7,17 @@ using AIBehaviorTree;
 
 public class #SCRIPTNAME# : BTTaskNode 
 {	
-    protected override void OnBeginExecute()
+    protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)
     {
         return;
     }
 
-    protected override EResult OnExecute()
+    protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
     {
         return EResult.Success;
     }
 
-    protected override void OnEndExecute()
+    protected override void OnEndExecute(NavMeshAgent agent, AIController controller)
     {
         return;
     }

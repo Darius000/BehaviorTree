@@ -10,9 +10,9 @@ namespace AIBehaviorTree
     [DisplayName("Force Success")]
     public class BTForceSuccess : BTDecorator
     {
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
-            Child.Execute(agent);
+            Child.Execute(agent, controller);
             return EResult.Success;
         }
     }

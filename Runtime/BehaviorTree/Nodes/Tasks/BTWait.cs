@@ -15,14 +15,14 @@ namespace AIBehaviorTree
 
         private float m_StartTime;
 
-        protected override void OnBeginExecute(NavMeshAgent agent)
+        protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)
         {
-            base.OnBeginExecute(agent);
+            base.OnBeginExecute(agent , controller);
 
             m_StartTime = Time.time;
         }
 
-        protected override EResult OnExecute(NavMeshAgent agent)
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
         {
             if (Time.time - m_StartTime > m_Duration)
             {
