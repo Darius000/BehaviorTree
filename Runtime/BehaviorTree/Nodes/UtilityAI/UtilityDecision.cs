@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
@@ -40,6 +41,25 @@ namespace AIBehaviorTree
                     Actions.Remove(utilityAction);
                 }
             }
+        }
+
+        protected override EResult OnExecute(NavMeshAgent agent)
+        {
+            if (Actions.Count == 0) return EResult.Failure;
+
+            float score = 0f;
+            int bestActionIndex = 0;
+
+            for(int i = 0; i < Actions.Count; i++)
+            {
+                if (Actions[i].EvaluateScore() > score)
+                {
+                    bestActionIndex = i;
+                    score = Actions[i].Score;
+                }
+            }
+
+            return Actions[bestActionIndex].Execute(agent);
         }
     }
 }

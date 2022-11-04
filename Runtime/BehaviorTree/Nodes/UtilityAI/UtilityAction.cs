@@ -42,8 +42,32 @@ namespace AIBehaviorTree
         }
 
         public override float EvaluateScore()
-        {
-            return 0;
+        {          
+            if (Considerations.Count == 0)
+            {
+                return Score;
+            }
+
+            float score = 1f;
+            foreach (var consideration in Considerations)
+            {
+                float considerationScore = consideration.EvaluateScore();
+                score *= considerationScore;
+
+                if(score == 0)
+                {
+                    Score = 0;
+                    return Score; //no use computing further
+                }
+            }
+
+            //averaging scheme of overall score
+            float originalScore = score;
+            float modFactor = 1 - (1 / Considerations.Count);
+            float makeUpValue = (1 - originalScore) * modFactor;
+            Score = originalScore + (makeUpValue * originalScore);
+
+            return Score;
         }
     }
 }

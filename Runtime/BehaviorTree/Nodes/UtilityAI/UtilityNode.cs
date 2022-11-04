@@ -8,8 +8,8 @@ namespace AIBehaviorTree
     [Category("Utility AI")]
     public abstract class UtilityNode : BTNode
     {
-        [field : SerializeField]
-        public float Score { get; set; }
+        [field: SerializeField]
+        public float Score { get; set; } = 0f;
 
         public abstract float EvaluateScore();
     }
