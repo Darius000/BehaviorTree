@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Reflection;
+using UnityEngine.UIElements;
 
 namespace AIBehaviorTree.Utils
 {
@@ -43,6 +44,57 @@ namespace AIBehaviorTree.Utils
                 var path = AssetDatabase.GUIDToAssetPath(guids[0]);
                 return path;
             }
+        }
+
+        /// <summary>
+        /// Get display name attribute from given type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static string GetDisplayName(Type type)
+        {
+            var attributes = type.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+            if (attributes.Length > 0)
+            {
+                var nameAttribute = attributes[0] as DisplayNameAttribute;
+                return nameAttribute.DisplayName;
+            }
+
+            return type.Name;
+        }
+
+        /// <summary>
+        /// get catgory attribute from given type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static string GetCategory(Type type)
+        {
+            var attributes = type.GetCustomAttributes(typeof(CategoryAttribute), true);
+            if (attributes.Length > 0)
+            {
+                var attribute = (attributes[0] as CategoryAttribute);
+                return attribute.Category;
+            }
+
+            return "";
+        }
+
+
+        internal static string GetIcon(Type type)
+        {
+
+            //find icon attribute and set node icon
+            var iconattributes = type.GetCustomAttributes(typeof(NodeIconAttribute), true);
+            if (iconattributes.Length > 0)
+            {
+                var iconAttribute = iconattributes[0] as NodeIconAttribute;
+                return iconAttribute.IconPath;
+
+                
+            }
+
+            return "";
         }
     }
 }

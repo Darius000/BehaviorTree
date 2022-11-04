@@ -263,7 +263,7 @@ namespace AIBehaviorTree
             var node = startPort.node as NodeView;
             return ports.ToList().Where(endPort => endPort.direction != startPort.direction &&
             endPort.node != startPort.node && 
-            (startPort.portType.IsSubclassOf(endPort.portType) || 
+            (endPort.portType.IsSubclassOf(startPort.portType) || 
             startPort.portType == endPort.portType)).ToList();
         }
 

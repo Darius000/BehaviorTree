@@ -42,25 +42,9 @@ namespace AIBehaviorTree
             m_SerializedObject = new SerializedObject(node);
             this.Bind(m_SerializedObject);
 
+            SetNodeIcon(node);
 
-            string iconPath = "";
-            
-            //find icon attribute and set node icon
-            var iconattributes = node.GetType().GetCustomAttributes(typeof(NodeIconAttribute), true);
-            if (iconattributes.Length > 0)
-            {
-                var iconAttribute = iconattributes[0] as NodeIconAttribute;
-                iconPath = iconAttribute.IconPath;
-
-                var icon = this.Q<VisualElement>("Icon");
-                if (icon != null)
-                {
-                    icon.style.backgroundImage = new StyleBackground(Resources.Load<Texture2D>(iconPath));
-                    icon.style.display = DisplayStyle.Flex;
-                }
-            }
-
-            title = node.GetDisplayName();
+            title = Utils.BehaviorTreeUtils.GetDisplayName(node.GetType());
             viewDataKey = node.m_GUID;
 
             OnSelectedEvent = OnSelectedCallback;
@@ -72,6 +56,20 @@ namespace AIBehaviorTree
 
             capabilities |= ~UnityEditor.Experimental.GraphView.Capabilities.Copiable | UnityEditor.Experimental.GraphView.Capabilities.Renamable |
                 ~UnityEditor.Experimental.GraphView.Capabilities.Resizable;
+        }
+
+        private void SetNodeIcon(BTNode node)
+        {
+            var icon = this.Q<VisualElement>("Icon");
+            if (icon != null)
+            {
+                string path = Utils.BehaviorTreeUtils.GetIcon(node.GetType());
+                if(path != string.Empty)
+                {
+                    icon.style.backgroundImage = new StyleBackground(Resources.Load<Texture2D>(path));
+                    icon.style.display = DisplayStyle.Flex;
+                }
+            }
         }
 
         //creates the node pins from attributes
@@ -277,6 +275,5 @@ namespace AIBehaviorTree
         {
             return lhs.m_Position.x < rhs.m_Position.x ? -1 : 1;
         }
-
     }
 }

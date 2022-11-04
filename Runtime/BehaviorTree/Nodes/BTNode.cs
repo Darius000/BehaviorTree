@@ -138,7 +138,7 @@ namespace AIBehaviorTree
         protected void OnEnable()
         {
 
-            m_Description = m_DisplayName = GetDisplayName();
+            m_Description = m_DisplayName = GetType().Name;
         }
 
         public void SetPosition(Vector2 pos)
@@ -159,20 +159,7 @@ namespace AIBehaviorTree
             return node;
         }
 
-        //returns the display name if no displayname attribute default name is returned
-        public string GetDisplayName()
-        {
-            var attributes = GetType().GetCustomAttributes(typeof(DisplayNameAttribute), false);
-            if (attributes.Length > 0)
-            {
-                var nameAttribute = attributes[0] as DisplayNameAttribute;
-                return nameAttribute.DisplayName;
-            }
-
-            return name;
-        }
-
-
+        
 
         public virtual bool AddChild(BTNode node) { return true; }
 

@@ -10,6 +10,7 @@ using UnityEditor;
 namespace AIBehaviorTree
 {
     [DisplayName("Composite")]
+    [Category("Composites")]
     public abstract class BTComposite : BTNode
     {
         [Output(Capacity = Capacity.Multi, Type = typeof(BTNode))]

@@ -10,6 +10,7 @@ namespace AIBehaviorTree
 {
     [DisplayName("Decorator")]
     [NodeIcon("Decorator")]
+    [Category("Decorators")]
     public abstract class BTDecorator : BTNode
     {
         [Output(Capacity = Capacity.Single, Type = typeof(BTNode))]

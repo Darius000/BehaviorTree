@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using NUnit.Framework;
 
 namespace AIBehaviorTree
 {
@@ -32,13 +33,8 @@ namespace AIBehaviorTree
 
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
         {
-            List<ListItem> maingroup = new List<ListItem>();
-            Dictionary<string, List<ListItem>> groups = new Dictionary<string, List<ListItem>>()
-            {             
-                { "Composites", new List<ListItem>() } ,
-                { "Decorators", new List<ListItem>() },
-                { "Tasks" , new List<ListItem>()}
-            };
+            List<ListItem> root = new List<ListItem>();
+            Dictionary<string, List<ListItem>> groups = new Dictionary<string, List<ListItem>>() { };
 
             List<SearchTreeEntry> searchTreeEntries = new List<SearchTreeEntry>() 
             {
@@ -51,36 +47,29 @@ namespace AIBehaviorTree
             {
                 if (!type.IsAbstract)
                 {
-                    var displayName = type.Name;
-                    var attributes = type.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-                    if (attributes.Length > 0)
-                    {
-                        var nameAttribute = attributes[0] as DisplayNameAttribute;
-                        displayName = nameAttribute.DisplayName;
-                    }
+                    var displayName = Utils.BehaviorTreeUtils.GetDisplayName(type);
+                    var category = Utils.BehaviorTreeUtils.GetCategory(type);
+                    
 
                     var item = new ListItem() { displayName = displayName, userData = type };
-                    if (type.IsSubclassOf(typeof(BTDecorator)))
+                    if (category != "")
                     {
-                        groups["Decorators"].Add(item);
-                    }
-                    else if (type.IsSubclassOf(typeof(BTComposite)))
-                    {
-                        groups["Composites"].Add(item);
-                    }
-                    else if(type.IsSubclassOf(typeof(BTTaskNode)))
-                    {
-                        groups["Tasks"].Add(item);
+                        if(!groups.ContainsKey(category))
+                        {
+                            groups.Add(category, new List<ListItem>());
+                        }
+
+                        groups[category].Add(item);
                     }
                     else
                     {
-                        maingroup.Add(item);
+                        root.Add(item);
                     }
 
                 }
             }
 
-            foreach(var item in maingroup)
+            foreach(var item in root)
             {
                 searchTreeEntries.Add(new SearchTreeEntry(new GUIContent(item.displayName, m_IndentationIcon)) { level = 1, userData = item.userData });
             }
@@ -111,7 +100,5 @@ namespace AIBehaviorTree
 
             return false;
         }
-
-        
     }
 }
