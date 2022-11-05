@@ -161,12 +161,9 @@ namespace AIBehaviorTree
             return Instantiate(this);
         }
 
-        
-
         public bool AddChild(BTNode node)
         {
-            var children = GetChildren();
-            if(!children.Contains(node))
+            if(!ContainsChild(node))
             {
                 Undo.RecordObject(this, "Behavior Tree (Add Child");
 
@@ -193,7 +190,7 @@ namespace AIBehaviorTree
 
         protected virtual void OnRemoveChild(BTNode node) { }
 
-        public virtual IEnumerable<BTNode> GetChildren() { return new List<BTNode>(); }
+        public virtual IDictionary<int, IEnumerable<BTNode>> GetChildren() { return new Dictionary<int, IEnumerable<BTNode>>(); }
 
         internal void InitializeRuntimeNode(BehaviorTree tree)
         {
@@ -202,7 +199,12 @@ namespace AIBehaviorTree
 
         public bool ContainsChild(BTNode b)
         {
-            return GetChildren().Contains(b);
+            foreach(var pair in GetChildren())
+            {
+                if (pair.Value.Contains(b)) return true;
+            }
+
+            return false;
         }
 
         public virtual int GetChildIndex(BTNode b)

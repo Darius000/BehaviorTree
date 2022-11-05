@@ -43,11 +43,9 @@ namespace AIBehaviorTree
             }
         }
 
-        public override IEnumerable<BTNode> GetChildren()
+        public override IDictionary<int, IEnumerable<BTNode>> GetChildren()
         {
-           var children = new List<BTNode>() { Action };
-           children.AddRange(Considerations);
-           return children;
+           return new Dictionary<int, IEnumerable<BTNode>> { {0, Considerations }, { 1, new List<BTNode> { Action } } };
         }
 
         public override int GetChildIndex(BTNode b)

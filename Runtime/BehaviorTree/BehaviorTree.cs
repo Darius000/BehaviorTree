@@ -125,9 +125,9 @@ namespace AIBehaviorTree
  
         }
 
-        public List<BTNode> GetChildren(BTNode parent)
+        public IDictionary<int, IEnumerable<BTNode>> GetChildren(BTNode parent)
         {
-            return parent.GetChildren().ToList();
+            return parent.GetChildren();
         }
 
         public void Traverse(BTNode node, System.Action<BTNode> visitor)
@@ -136,7 +136,14 @@ namespace AIBehaviorTree
             {
                 visitor.Invoke(node);
                 var children = GetChildren(node);
-                children.ForEach((n) => Traverse(n, visitor));
+                //children.ForEach((n) => Traverse(n, visitor));
+                foreach(var port in children)
+                {
+                    foreach(var child in port.Value)
+                    {
+                        Traverse(child, visitor);
+                    }
+                }
             }
         }
 

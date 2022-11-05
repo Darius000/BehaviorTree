@@ -51,9 +51,9 @@ namespace AIBehaviorTree
             CurrentState = EState.Decide;
         }
 
-        public override IEnumerable<BTNode> GetChildren()
+        public override IDictionary<int, IEnumerable<BTNode>> GetChildren()
         {
-            return Actions;
+            return new Dictionary<int, IEnumerable<BTNode>> { { 0, Actions} };
         }
 
         protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)

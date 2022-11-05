@@ -14,7 +14,7 @@ namespace AIBehaviorTree
     public abstract class BTDecorator : BTNode
     {
         [Output(Capacity = Capacity.Single, Type = typeof(BTNode))]
-        [HideInInspector] public BTNode Child;
+        [HideInInspector] public BTNode Child = null;
 
         protected override void OnAddChild(BTNode node)
         {
@@ -30,9 +30,9 @@ namespace AIBehaviorTree
             Child = null;
         }
 
-        public override IEnumerable<BTNode> GetChildren()
+        public override IDictionary<int, IEnumerable<BTNode>> GetChildren()
         {
-            return new List<BTNode>{ Child};
+            return new Dictionary<int, IEnumerable<BTNode>>{ { 0, new List<BTNode> { Child } } };
         }
 
         public override BTNode Clone()

@@ -176,6 +176,8 @@ namespace AIBehaviorTree
 
         NodeView FindNodeElementView(BTNode node)
         {
+            if(node == null) return null;
+
             return GetNodeByGuid(node.m_GUID) as NodeView;
         }
 
@@ -214,12 +216,20 @@ namespace AIBehaviorTree
             m_Tree.Nodes.ForEach(n =>
             {
                 var children = m_Tree.GetChildren(n);
-                children.ForEach(c =>
-                {
-                    if (c == null) return;
+                //children.ForEach(c =>
+                //{
+                //    if (c == null) return;
 
-                    CreateEdgeElement(n, c);
-                });
+                //    CreateEdgeElement(n, c);
+                //});
+
+                foreach(var pair in children)
+                {
+                    foreach(var child in pair.Value )
+                    {
+                        CreateEdgeElement(n, child, pair.Key);
+                    }
+                }
             });
 
             m_Tree.Groups.ForEach(g =>
@@ -233,7 +243,7 @@ namespace AIBehaviorTree
                 var children = g.m_Children;
                 children.ForEach(c =>
                 {
-                    NodeView view = FindNodeElementView(c) as NodeView;
+                    var view = FindNodeElementView(c);
                     if (view != null)
                     {
                         groupView.AddElement(view);
@@ -243,15 +253,12 @@ namespace AIBehaviorTree
         }
 
         //creates an edge element and adds t to the graph, if b is child of a
-        private void CreateEdgeElement(BTNode a, BTNode b)
+        private void CreateEdgeElement(BTNode parent, BTNode child, int portIndex)
         {
-            var index = a.GetChildIndex(b);
-            if (index == -1) return;
+            var parentView = FindNodeElementView(parent);
+            var childView = FindNodeElementView(child);
 
-            var parentView = FindNodeElementView(a);
-            var childView = FindNodeElementView(b);
-
-            Edge edge = parentView.ConnectEdgeToChildren(childView, index);
+            Edge edge = parentView.ConnectEdgeToChildren(childView, portIndex);
             if (edge != null)
             {
                 AddElement(edge);

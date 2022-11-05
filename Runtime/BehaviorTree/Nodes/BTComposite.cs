@@ -30,9 +30,9 @@ namespace AIBehaviorTree
             m_Children.Remove(node);
         }
 
-        public override IEnumerable<BTNode> GetChildren()
+        public override IDictionary<int ,IEnumerable<BTNode>> GetChildren()
         {
-            return m_Children;
+            return new Dictionary<int , IEnumerable<BTNode>>{ { 0, m_Children} };
         }
 
         

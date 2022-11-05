@@ -144,6 +144,7 @@ namespace AIBehaviorTree
 
         public Edge ConnectEdgeToChildren(NodeView childView, int index)
         {
+            if(childView == null) return null;
             if(childView.Inputs.Count == 0 || Outputs.Count == 0) return null;
             return this.Outputs[index].ConnectTo(childView.Inputs[0]);
         }
