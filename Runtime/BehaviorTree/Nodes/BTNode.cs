@@ -158,16 +158,40 @@ namespace AIBehaviorTree
 
         public virtual BTNode Clone()
         {
-            var node = Instantiate(this);
-
-            return node;
+            return Instantiate(this);
         }
 
         
 
-        public virtual bool AddChild(BTNode node) { return true; }
+        public bool AddChild(BTNode node)
+        {
+            var children = GetChildren();
+            if(!children.Contains(node))
+            {
+                Undo.RecordObject(this, "Behavior Tree (Add Child");
 
-        public virtual void RemoveChild(BTNode node) { }
+                OnAddChild(node);
+
+                EditorUtility.SetDirty(this);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public void RemoveChild(BTNode node)
+        {
+            Undo.RecordObject(this, "Behavior Tree (Remove Child");
+
+            OnRemoveChild(node);
+
+            EditorUtility.SetDirty(this);
+        }
+
+        protected virtual void  OnAddChild(BTNode node) { }
+
+        protected virtual void OnRemoveChild(BTNode node) { }
 
         public virtual IEnumerable<BTNode> GetChildren() { return new List<BTNode>(); }
 

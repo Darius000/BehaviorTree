@@ -20,21 +20,30 @@ namespace AIBehaviorTree
 
         private UtilityAction BestAction = null;
 
-        public override bool AddChild(BTNode node)
+        protected override void OnAddChild(BTNode node)
         {
+            base.OnAddChild(node);
             if(node is UtilityAction utilityAction)
             {
-                if(!Actions.Contains(utilityAction))
+                Actions.Add(utilityAction);
+
+                utilityAction.OnFinishedEvent += OnActionCompleted;
+            }
+        }
+
+        protected override void OnRemoveChild(BTNode node)
+        {
+            base.OnRemoveChild(node);
+
+            if (node is UtilityAction utilityAction)
+            {
+                if (Actions.Contains(utilityAction))
                 {
-                    Actions.Add(utilityAction);
+                    utilityAction.OnFinishedEvent -= OnActionCompleted;
 
-                    utilityAction.OnFinishedEvent += OnActionCompleted;
-
-                    return true;
+                    Actions.Remove(utilityAction);
                 }
             }
-
-            return false;
         }
 
         private void OnActionCompleted()
@@ -45,19 +54,6 @@ namespace AIBehaviorTree
         public override IEnumerable<BTNode> GetChildren()
         {
             return Actions;
-        }
-
-        public override void RemoveChild(BTNode node)
-        {
-            if (node is UtilityAction utilityAction)
-            {
-                if (Actions.Contains(utilityAction))
-                {
-                    utilityAction.OnFinishedEvent -= OnActionCompleted;
-
-                    Actions.Remove(utilityAction);
-                }
-            }
         }
 
         protected override void OnBeginExecute(NavMeshAgent agent, AIController controller)

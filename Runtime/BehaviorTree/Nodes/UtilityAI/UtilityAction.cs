@@ -15,23 +15,32 @@ namespace AIBehaviorTree
         [Output(Type = typeof(BTNode))]
         public BTNode Action;
 
-        public override bool AddChild(BTNode node)
+        protected override void OnAddChild(BTNode node)
         {
-            if(node is UtilityConsideration utilityConsideration)
-            {
-                if(!Considerations.Contains(utilityConsideration))
-                {
-                    Considerations.Add(utilityConsideration);
+            base.OnAddChild(node);
 
-                    return true;
-                }
+            if (node is UtilityConsideration utilityConsideration)
+            {
+                Considerations.Add(utilityConsideration);
             }
             else
             {
                 Action = node;
             }
+        }
 
-            return false;
+        protected override void OnRemoveChild(BTNode node)
+        {
+            base.OnRemoveChild(node);
+
+            if (node is UtilityConsideration utilityConsideration)
+            {
+                Considerations.Remove(utilityConsideration);
+            }
+            else if (Action == node)
+            {
+                Action = null;
+            }
         }
 
         public override IEnumerable<BTNode> GetChildren()
@@ -55,20 +64,7 @@ namespace AIBehaviorTree
             return -1;
         }
 
-        public override void RemoveChild(BTNode node)
-        {
-            if (node is UtilityConsideration utilityConsideration)
-            {
-                if (Considerations.Contains(utilityConsideration))
-                {
-                    Considerations.Remove(utilityConsideration);
-                }
-            }
-            else if(Action == node)
-            {
-                Action = null;
-            }
-        }
+        
 
         public override float EvaluateScore()
         {          

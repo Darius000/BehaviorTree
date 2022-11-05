@@ -16,24 +16,18 @@ namespace AIBehaviorTree
         [Output(Capacity = Capacity.Single, Type = typeof(BTNode))]
         [HideInInspector] public BTNode Child;
 
-        public override bool AddChild(BTNode node)
+        protected override void OnAddChild(BTNode node)
         {
-            Undo.RecordObject(this, "Behavior Tree (Add Child");
+            base.OnAddChild(node);
 
             Child = node;
-
-            EditorUtility.SetDirty(this);
-
-            return true;
         }
 
-        public override void RemoveChild(BTNode node)
+        protected override void OnRemoveChild(BTNode node)
         {
-            Undo.RecordObject(this, "Behavior Tree (Remove Child");
+            base.OnRemoveChild(node);
 
             Child = null;
-
-            EditorUtility.SetDirty(this);
         }
 
         public override IEnumerable<BTNode> GetChildren()

@@ -19,18 +19,18 @@ namespace AIBehaviorTree
             return EResult.Running; 
         }
 
-        public override bool AddChild(BTNode node)
+        protected override void OnRemoveChild(BTNode node)
         {
-            if(!m_Children.Contains(node))
-            {
-                m_Children.Add(node);
-            }
-            return true;
+            base.OnRemoveChild(node);
+
+            m_Children.Remove(node);
         }
 
-        public override void RemoveChild(BTNode node)
+        protected override void OnAddChild(BTNode node)
         {
-            m_Children.Remove(node);
+            base.OnAddChild(node);
+
+            m_Children.Add(node);
         }
 
         public override IEnumerable<BTNode> GetChildren()
