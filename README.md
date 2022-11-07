@@ -108,8 +108,9 @@ Each key constists of the following :
 <p>
 
 <h3> Debugging </h3>
-<p> Selecting an AI using a behavior tree, the scene editor will displaty info about the behaviour tree as well as the current data of each blackboard keys </p>
-<p> A breakpoint can be added to a node in order to pause the behavior tree </p>
+<p> Selecting an AI using a behavior tree, the scene editor will displaty info about the behaviour tree as well as the current data of each blackboard keys.
+	A breakpoint can be added to a node in order to pause the behavior tree. </p>
+
 ![Debug](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/Debug.png?raw=true)
 
 <h4>Note:</h4>
