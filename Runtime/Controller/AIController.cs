@@ -16,6 +16,9 @@ public class AIController : MonoBehaviour
 
     bool m_IsPaused = false;
 
+    [SerializeField]
+    protected bool ShowDebugInfo = true;
+
     public BehaviorTree Tree { get { return m_Tree; } }
 
     public void RunBehaviourTree()
@@ -78,7 +81,10 @@ public class AIController : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        m_Tree?.DrawDebugInfo(this);
+        if(ShowDebugInfo)
+        {
+            m_Tree?.DrawDebugInfo(this);
+        }
     }
 #endif
 }
