@@ -13,6 +13,6 @@ namespace AIBehaviorTree
 
         private float score;
 
-        public abstract float EvaluateScore();
+        public abstract float EvaluateScore(AIController controller);
     }
 }

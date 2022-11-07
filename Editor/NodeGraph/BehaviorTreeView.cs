@@ -268,10 +268,24 @@ namespace AIBehaviorTree
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             var node = startPort.node as NodeView;
-            return ports.ToList().Where(endPort => endPort.direction != startPort.direction &&
-            endPort.node != startPort.node && 
-            (endPort.portType.IsSubclassOf(startPort.portType) || 
-            startPort.portType == endPort.portType)).ToList();
+            var compatiblePorts = new List<Port>(); 
+            
+            foreach(var port in ports)
+            {
+                bool NotSameDirection = port.direction != startPort.direction;
+                bool NotSamePort = port.node != startPort.node;
+                bool IsSameType = port.portType == startPort.portType;
+                bool IsDerivedType = port.portType.IsSubclassOf(startPort.portType);
+                bool IsArray = startPort.portType.GetInterfaces().Contains(typeof(IEnumerable));
+
+                if(NotSameDirection && NotSamePort && (IsSameType || IsDerivedType || 
+                    (IsArray && port.portType.IsSubclassOf(startPort.portType.GenericTypeArguments[0]))))
+                {
+                    compatiblePorts.Add(port);
+                }
+            }    
+           
+            return compatiblePorts;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)

@@ -9,7 +9,7 @@ namespace AIBehaviorTree
     [NodeIcon("Root")]
     public class BTRoot : BTNode
     {
-        [Output(Capacity = Capacity.Multi, Type = typeof(BTNode))]
+        [Output]
         [HideInInspector] public List<BTNode> m_Children = new List<BTNode>();
 
         protected override EResult OnExecute(NavMeshAgent agent, AIController controller)

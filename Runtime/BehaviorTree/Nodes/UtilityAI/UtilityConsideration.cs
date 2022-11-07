@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace AIBehaviorTree
 {
-    [Input(Type = typeof(UtilityConsideration))]
+    [Input]
     public  class UtilityConsideration : UtilityNode
     {
-        public override float EvaluateScore()
+        public override float EvaluateScore(AIController controller)
         {
             return Score;
         }

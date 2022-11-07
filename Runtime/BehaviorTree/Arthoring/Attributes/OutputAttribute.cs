@@ -13,7 +13,5 @@ namespace AIBehaviorTree
         {
 
         }
-
-        public OutputAttribute(Type type, Capacity capacity = Capacity.Single) : base(type, capacity) { }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -43,8 +44,8 @@ namespace AIBehaviorTree
             this.Bind(m_SerializedObject);
 
             SetNodeIcon(node);
-
-            title = Utils.BehaviorTreeUtils.GetDisplayName(node.GetType());
+            SetTitle(node);
+            
             viewDataKey = node.m_GUID;
 
             OnSelectedEvent = OnSelectedCallback;
@@ -70,6 +71,11 @@ namespace AIBehaviorTree
                     icon.style.display = DisplayStyle.Flex;
                 }
             }
+        }
+
+        private void SetTitle(BTNode node)
+        {
+            title = node.m_DisplayName;
         }
 
         //creates the node pins from attributes
@@ -105,12 +111,11 @@ namespace AIBehaviorTree
             var classAttribute = type.GetCustomAttribute<T>();
             var fields = type.GetFields();
             var properties = type.GetProperties();
-            
+            Port.Capacity capacity = Port.Capacity.Single;
 
             if (classAttribute != null)
             {
-                var classinput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)classAttribute.Capacity, classAttribute.Type);
-                
+                var classinput = InstantiatePort(Orientation.Vertical, direction, Port.Capacity.Single, type);
                 container.Add(classinput);
                 ports.Add(classinput);
                 
@@ -121,7 +126,9 @@ namespace AIBehaviorTree
                 var fieldAttribute = field.GetCustomAttribute<T>();
                 if(fieldAttribute != null)
                 {
-                    var fieldinput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)fieldAttribute.Capacity, fieldAttribute.Type);
+                    
+                    var fieldType = ParseType(field.FieldType, out capacity);
+                    var fieldinput = InstantiatePort(Orientation.Vertical, direction, capacity, fieldType);
                     
                     container.Add(fieldinput);
                     ports.Add(fieldinput);
@@ -134,8 +141,8 @@ namespace AIBehaviorTree
                 var propertyAttribute = property.GetCustomAttribute<T>();
                 if(propertyAttribute != null)
                 {
-                    var propertyInput = InstantiatePort(Orientation.Vertical, direction, (Port.Capacity)propertyAttribute.Capacity, propertyAttribute.Type);
-                    
+                    var propertyType = ParseType(property.PropertyType, out capacity);
+                    var propertyInput = InstantiatePort(Orientation.Vertical, direction, capacity, propertyType);
                     container.Add(propertyInput);
                     ports.Add(propertyInput);
                 }
@@ -152,6 +159,13 @@ namespace AIBehaviorTree
         private void ToggleBreakPoint(bool hasbreakpoint)
         {
             BreakPointIcon.style.visibility = hasbreakpoint ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private Type ParseType(Type type, out Port.Capacity capacity)
+        {
+            bool IsArray = type.GetInterfaces().Contains(typeof(IEnumerable));
+            capacity = IsArray ? Port.Capacity.Multi : Port.Capacity.Single;
+            return type;
         }
 
 

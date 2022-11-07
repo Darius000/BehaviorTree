@@ -13,7 +13,7 @@ namespace AIBehaviorTree
     [Category("Decorators")]
     public abstract class BTDecorator : BTNode
     {
-        [Output(Capacity = Capacity.Single, Type = typeof(BTNode))]
+        [Output]
         [HideInInspector] public BTNode Child = null;
 
         protected override void OnAddChild(BTNode node)

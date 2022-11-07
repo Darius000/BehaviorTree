@@ -6,13 +6,14 @@ using System;
 using UnityEngine.AI;
 using UnityEditor;
 using Unity.Plastic.Antlr3.Runtime.Tree;
+using UnityEngine.Diagnostics;
 
 namespace AIBehaviorTree
 {
     public enum EResult { Running, Failure, Success, Abort };
 
     [DisplayName("Node")]
-    [Input(Type = typeof(BTNode))]
+    [Input]
     public abstract class BTNode : ScriptableObject
     {
         [HideInInspector] public string m_GUID;
@@ -33,8 +34,6 @@ namespace AIBehaviorTree
         [HideInInspector] public bool m_BeganExecution = false;
 
         public Action<EResult> OnCompletedEvent;
-
-        public Action OnFinishedEvent;
 
         public Action<bool> OnBreakPointSet;
 
@@ -104,7 +103,7 @@ namespace AIBehaviorTree
                 m_BeganExecution = false;
             }
 
-            OnFinishedEvent?.Invoke();
+            
 
             return m_State;
         }
@@ -141,8 +140,32 @@ namespace AIBehaviorTree
 
         protected void OnEnable()
         {
+            if(m_DisplayName == string.Empty || m_DisplayName == "")
+            {
+                m_DisplayName = GetDisplayName(GetType());
+            }
 
-            m_Description = m_DisplayName = GetType().Name;
+            if(m_Description == string.Empty || m_Description == "")
+            {
+                m_Description = GetDisplayName(GetType());
+            }
+        }
+
+        /// <summary>
+        /// Get display name attribute from given type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private string GetDisplayName(Type type)
+        {
+            var attributes = type.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+            if (attributes.Length > 0)
+            {
+                var nameAttribute = attributes[0] as DisplayNameAttribute;
+                return nameAttribute.DisplayName;
+            }
+
+            return type.Name;
         }
 
         public void SetPosition(Vector2 pos)

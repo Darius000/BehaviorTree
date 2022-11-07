@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,27 +6,30 @@ using UnityEngine.AI;
 
 namespace AIBehaviorTree
 {
-    [Input(Type = typeof(UtilityAction))]
+    [Input]
     public class UtilityAction : UtilityNode
     {
-        [Output(Capacity = Capacity.Multi, Type = typeof(UtilityConsideration))]
+        [Output]
         [HideInInspector]
         public List<UtilityConsideration> Considerations = new List<UtilityConsideration>();
 
-        [Output(Type = typeof(BTNode))]
-        public BTNode Action;
+        [Output]
+        [HideInInspector]
+        public BTNode ActionToExecute;
+
+        public Action OnFinishedEvent;
 
         protected override void OnAddChild(BTNode node)
         {
             base.OnAddChild(node);
 
-            if (node is UtilityConsideration utilityConsideration)
+            if(node is UtilityConsideration consideration)
             {
-                Considerations.Add(utilityConsideration);
+                Considerations.Add(consideration);
             }
             else
             {
-                Action = node;
+                ActionToExecute = node;
             }
         }
 
@@ -33,38 +37,53 @@ namespace AIBehaviorTree
         {
             base.OnRemoveChild(node);
 
-            if (node is UtilityConsideration utilityConsideration)
+            if (node is UtilityConsideration consideration)
             {
-                Considerations.Remove(utilityConsideration);
+                Considerations.Remove(consideration);
             }
-            else if (Action == node)
+            else
             {
-                Action = null;
+                ActionToExecute = null;
             }
         }
 
         public override IDictionary<int, IEnumerable<BTNode>> GetChildren()
         {
-           return new Dictionary<int, IEnumerable<BTNode>> { {0, Considerations }, { 1, new List<BTNode> { Action } } };
+           return new Dictionary<int, IEnumerable<BTNode>> { {0, Considerations } , { 1, new BTNode[] { ActionToExecute } } };
         }
 
-        public override int GetChildIndex(BTNode b)
+        public override int GetChildIndex(BTNode node)
         {
-            if(b is UtilityConsideration utilityConsideration)
+            if(node is UtilityConsideration)
             {
-                if (Considerations.Contains(utilityConsideration)) return 0;
-            }
-            else if(Action == b)
-            {
-                return 1;
+                return 0;
             }
 
-            return -1;
+            return 1;
         }
 
-        
+        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
+        {
+            OnExecuteAction(agent, controller);
 
-        public override float EvaluateScore()
+            if (ActionToExecute)
+            {
+                var state = ActionToExecute.Execute(agent, controller);
+                OnFinishedEvent?.Invoke();
+                return state;
+            }
+
+            OnFinishedEvent?.Invoke();
+
+            return EResult.Success;
+        }
+
+        protected virtual void OnExecuteAction(NavMeshAgent agent, AIController controller)
+        {
+
+        }
+
+        public override float EvaluateScore(AIController controller)
         {          
             if (Considerations.Count == 0)
             {
@@ -74,7 +93,7 @@ namespace AIBehaviorTree
             float score = 1f;
             foreach (var consideration in Considerations)
             {
-                float considerationScore = consideration.EvaluateScore();
+                float considerationScore = consideration.EvaluateScore(controller);
                 score *= considerationScore;
 
                 if(score == 0)
@@ -93,19 +112,9 @@ namespace AIBehaviorTree
             return Score;
         }
 
-        public virtual Vector3 GetRequiredLocation()
+        public virtual Vector3 GetRequiredLocation(NavMeshAgent agent, AIController controller)
         {
             return Vector3.zero;
-        }
-
-        protected override EResult OnExecute(NavMeshAgent agent, AIController controller)
-        {
-            if(Action)
-            {
-                return Action.Execute(agent, controller);
-            }
-
-            return EResult.Success;
         }
     }
 }
