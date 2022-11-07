@@ -193,7 +193,7 @@ namespace AIBehaviorTree
             {
                 m_Tree.Root = m_Tree.CreateNode(typeof(BTRoot)) as BTRoot;
                 EditorUtility.SetDirty(m_Tree);
-                AssetDatabase.SaveAssets();
+                AssetDatabase.SaveAssetIfDirty(m_Tree);
             }
 
             //create node view

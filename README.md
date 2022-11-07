@@ -6,6 +6,7 @@
 <p> Uses Scriptable objects to store the behaviour tree and blackboard data <p>
 
 ![Editor](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/BehaviourTreeEditor.png?raw=true)
+![Runtime](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/PlayMode.png?raw=true)
 
 <h2> Features </h2>
 <h3> Undo/Redo <h3>
@@ -64,6 +65,13 @@ Each key constists of the following :
   <li>Wait</li>   
  </ul>
  
+  <h4>Utility AI Nodes</h4>
+ <ul>
+  <li>Utility Decision</li>  
+  <li>Utility Action - has a second pin to execute a subgraph as an option to execute an action instead of deriving from this node</li> 
+  <li>Utility Consideration</li> 
+ </ul>
+ 
  <h4>Miscellaneous</h4>
  <ul>
   <li>Group - Groups Nodes Together</li>  
@@ -102,6 +110,7 @@ Each key constists of the following :
 <h3> Debugging </h3>
 <p> Selecting an AI using a behavior tree, the scene editor will displaty info about the behaviour tree as well as the current data of each blackboard keys </p>
 <p> A breakpoint can be added to a node in order to pause the behavior tree </p>
+![Debugging](https://github.com/Darius000/BehaviourTree/blob/master/ScreenShots/Debug.png?raw=true)
 
 <h4>Note:</h4>
 <p>The base project is based off the Unity's shader graph but doesn't

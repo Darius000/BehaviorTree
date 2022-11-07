@@ -16,8 +16,7 @@ namespace AIBehaviorTree
     {
         public BTNode m_Node;
 
-
-        private SerializedObject m_SerializedObject;
+        public SerializedObject m_SerializedObject;
 
         public Action<NodeView> OnSelectedEvent;
 
@@ -39,9 +38,7 @@ namespace AIBehaviorTree
             CreatePins(node);
             CreateBreakPoint();
 
-            //set serailized object and bind to this visual element
-            m_SerializedObject = new SerializedObject(node);
-            this.Bind(m_SerializedObject);
+           
 
             SetNodeIcon(node);
             SetTitle(node);
@@ -57,6 +54,10 @@ namespace AIBehaviorTree
 
             capabilities |= ~UnityEditor.Experimental.GraphView.Capabilities.Copiable | UnityEditor.Experimental.GraphView.Capabilities.Renamable |
                 ~UnityEditor.Experimental.GraphView.Capabilities.Resizable;
+
+            //set serailized object and bind to this visual element
+            m_SerializedObject = new SerializedObject(node);
+            this.Bind(m_SerializedObject);
         }
 
         private void SetNodeIcon(BTNode node)

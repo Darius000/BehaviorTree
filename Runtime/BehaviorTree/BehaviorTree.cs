@@ -61,9 +61,7 @@ namespace AIBehaviorTree
 
         public BTNode CreateNode(BTNode node, Vector2 pos = new Vector2())
         {
-            node.m_Position = pos;
-            node.m_GUID = GUID.Generate().ToString();
-            node.OnDeletedEvent = DeleteNode;
+            node.Initialize(pos, GUID.Generate().ToString(), DeleteNode);
 
             Undo.RecordObject(this, "Behavior Tree (Create Node)");
 

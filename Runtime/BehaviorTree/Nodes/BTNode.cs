@@ -22,10 +22,10 @@ namespace AIBehaviorTree
 
         [HideInInspector] public Action<BTNode> OnDeletedEvent;
 
-        [HideInInspector] public string m_Description;
+        /*[HideInInspector]*/ public string m_Description = "";
 
         //text displayed on node title
-        [HideInInspector] public string m_DisplayName;
+        /*[HideInInspector]*/ public string m_DisplayName = "";
 
         private EResult m_State = EResult.Running;
 
@@ -43,11 +43,6 @@ namespace AIBehaviorTree
         [HideInInspector]
         public bool m_BreakPoint = false;
 #endif
-        public BTNode()
-        {
-            
-        }
-
        
 
         protected void SetState(EResult state)
@@ -133,22 +128,14 @@ namespace AIBehaviorTree
             }
         }
 
-        protected virtual void OnDelete()
+        protected virtual void OnDelete() { }
+
+        public void Initialize(Vector2 position, string id, Action<BTNode> OnDelete = null)
         {
-
-        }
-
-        protected void OnEnable()
-        {
-            if(m_DisplayName == string.Empty || m_DisplayName == "")
-            {
-                m_DisplayName = GetDisplayName(GetType());
-            }
-
-            if(m_Description == string.Empty || m_Description == "")
-            {
-                m_Description = GetDisplayName(GetType());
-            }
+            m_Position = position;
+            m_GUID = id;
+            OnDeletedEvent = OnDelete;
+            m_Description = m_DisplayName = GetDisplayName(GetType());
         }
 
         /// <summary>
