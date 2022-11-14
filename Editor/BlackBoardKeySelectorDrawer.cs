@@ -16,6 +16,8 @@ namespace AIBehaviorTree
         {
             BlackBoardKeySelector selector = property.managedReferenceValue as BlackBoardKeySelector;
 
+            if (selector == null) return;
+
             //base.OnGUI(position, property, label);
 
             EditorGUI.BeginProperty(position, label, property);
@@ -62,7 +64,7 @@ namespace AIBehaviorTree
             position.width *= .5f;
 
 
-            
+            //Dras the drop menu with the available blackbaord keys
 
             if (EditorGUI.DropdownButton(position, new GUIContent(nameProperty.stringValue, toolTop), FocusType.Passive))
             {
@@ -71,7 +73,7 @@ namespace AIBehaviorTree
                 menu.AddItem(new GUIContent("None", ""), false, () =>
                 {
                     nameProperty.serializedObject.Update();
-                    nameProperty.stringValue = "None";
+                    nameProperty.stringValue = "";
                     nameProperty.serializedObject.ApplyModifiedProperties();
                 });
 
