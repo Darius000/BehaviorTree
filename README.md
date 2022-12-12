@@ -1,7 +1,6 @@
 <h2> Visual Behaviour Tree for Unity</h2>
 
-<p> Behaviour tree is a package for Unity that contains that ability to program Unity AI in an efficient way. </p>
-<p> The goal was to create a node based behavior tree system for AI in Unity to improve efficiency for achieving developing complex AI behaviors. </p>
+<p> Behaviour tree is a package for Unity that contains that ability to program Unity AI in an efficient way from simple to complex behaviours. </p>
 <p> Inspired my Unreal Engine's Behavior Tree Design and needed an editor to create AI Bahviours as quickly as possible this Behavior Tree Was created.
 <p> Uses Scriptable objects to store the behaviour tree and blackboard data <p>
 
