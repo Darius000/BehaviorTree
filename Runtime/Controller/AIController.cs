@@ -75,13 +75,13 @@ public class AIController : MonoBehaviour
 
     public BlackBoard GetBlackBoard()
     {
-        return m_Tree.m_BlackBoard;
+        return m_Tree?.m_BlackBoard;
     }
 
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        if(ShowDebugInfo)
+        if(ShowDebugInfo && m_Tree)
         {
             m_Tree?.DrawDebugInfo(this);
         }
