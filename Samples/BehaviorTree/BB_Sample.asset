@@ -13,19 +13,13 @@ MonoBehaviour:
   m_Name: BB_Sample
   m_EditorClassIdentifier: 
   m_Keys:
-  - {fileID: 6944235803738823986}
---- !u!114 &6944235803738823986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dae413becceb7e24b8a1f4861539ee96, type: 3}
-  m_Name: 3b0bda65-a7a8-47fe-9cb9-17c0e796ef65
-  m_EditorClassIdentifier: 
-  m_KeyName: Location
-  m_Description: 
-  m_IsInstance: 0
+  - rid: 5813348047918202881
+  references:
+    version: 2
+    RefIds:
+    - rid: 5813348047918202881
+      type: {class: VectorBlackBoardKey, ns: AIBehaviorTree, asm: AIBehaviorTree}
+      data:
+        m_KeyName: Location
+        m_Description: 
+        m_IsInstance: 0

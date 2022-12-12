@@ -12,6 +12,7 @@ namespace AIBehaviorTree
     public class BlackBoard : ScriptableObject
     {
         [SerializeField, SerializeReference]
+        //[HideInInspector]
         protected List<BlackBoardKey> m_Keys = new List<BlackBoardKey>();
 
         public Action<List<BlackBoardKey>> OnKeysChangedEvent;
@@ -109,7 +110,11 @@ namespace AIBehaviorTree
         public int GetKeyCount() {  return m_Keys.Count; }
 
         
-
+        /// <summary>
+        /// Draws the keys properties
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="index"></param>
         public void UpdateBlackBoardObject(SerializedObject obj, int index)
         {
             obj.Update();
@@ -117,9 +122,14 @@ namespace AIBehaviorTree
             var property = obj.FindProperty("m_Keys");
             var elementProperty = property.GetArrayElementAtIndex(index);
 
-            EditorGUILayout.PropertyField(elementProperty, true);
-            obj.ApplyModifiedProperties();
-            OnBlackBoardKeyUpdated?.Invoke(index);
+            if(elementProperty == null) return;
+
+            if(EditorGUILayout.PropertyField(elementProperty, true))
+            {
+                obj.ApplyModifiedProperties();
+                OnBlackBoardKeyUpdated?.Invoke(index);
+            }
+           
         }
     }
 }
